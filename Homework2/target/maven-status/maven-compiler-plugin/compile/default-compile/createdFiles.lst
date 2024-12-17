@@ -1,0 +1,6 @@
+deim\urv\cat\homework2\model\Link.class
+deim\urv\cat\homework2\model\Usuari.class
+deim\urv\cat\homework2\model\Topic.class
+deim\urv\cat\homework2\model\Article.class
+deim\urv\cat\homework2\service\ArticleService.class
+deim\urv\cat\homework2\model\ArticleResposta.class

@@ -1,0 +1,26 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : 17 dic 2024, 19:15:44
+    Author     : Genis i 
+*/
+.FlexContainer {
+    display: flex;
+    flex-wrap: wrap; /* Permite que los elementos se ajusten en varias líneas si es necesario */
+    justify-content: center;
+    align-items: flex-start;
+    align-content: flex-start;
+    width: 100%; /* Utiliza el 100% del ancho disponible */
+    background-color: #2f1d58;
+    height: 98vh; /* 80% de la altura de la ventana */
+    overflow: auto;
+    flex-direction: row;
+}
+
+.FlexContainer div {
+    flex: 1 1 300px; /* Los elementos pueden crecer y reducirse, con un tamaño base de 300px */
+    margin: 0px;
+    background-color: lightblue;
+}
