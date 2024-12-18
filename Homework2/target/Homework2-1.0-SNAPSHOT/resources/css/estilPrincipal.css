@@ -1,26 +1,95 @@
-/*
-Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
-*/
-/* 
-    Created on : 17 dic 2024, 19:15:44
-    Author     : Genis i 
-*/
-.FlexContainer {
-    display: flex;
-    flex-wrap: wrap; /* Permite que los elementos se ajusten en varias líneas si es necesario */
-    justify-content: center;
-    align-items: flex-start;
-    align-content: flex-start;
-    width: 100%; /* Utiliza el 100% del ancho disponible */
-    background-color: #2f1d58;
-    height: 98vh; /* 80% de la altura de la ventana */
-    overflow: auto;
-    flex-direction: row;
+/* Reseteo básico para evitar estilos predeterminados */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-.FlexContainer div {
-    flex: 1 1 300px; /* Los elementos pueden crecer y reducirse, con un tamaño base de 300px */
-    margin: 0px;
-    background-color: lightblue;
+/* Estilado general de la página */
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    background-color: #f5f5f5;
+}
+
+/* Encabezado principal */
+.header {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #555;
+}
+
+.header h1 {
+    font-size: 24px;
+}
+
+/* Botones en el encabezado */
+.header-buttons {
+    display: flex;
+    gap: 10px; /* Espacio entre los botones */
+}
+
+.header-buttons button {
+    background-color: #555;
+    color: #fff;
+    border: none;
+    padding: 8px 15px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.header-buttons button:hover {
+    background-color: #777;
+}
+
+/* Contenedor principal con la tabla responsive */
+.container {
+    padding: 20px;
+}
+
+/* Tabla Responsive */
+.table-container {
+    overflow-x: auto;
+    margin-top: 20px;
+}
+
+.articulos-table {
+    width: 100%;
+    border: 1px solid #ccc;
+    border-collapse: collapse;
+}
+
+.articulos-table th,
+.articulos-table td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: center;
+}
+
+.articulos-table th {
+    background-color: #333;
+    color: #fff;
+}
+
+/* Estilado para el diseño de filas de 3 artículos por fila */
+.table-container .articulos-table tr:nth-child(3n) {
+    border-bottom: 2px solid #333;
+}
+
+/* Responsividad */
+@media (max-width: 768px) {
+    .articulos-table td {
+        display: block;
+        width: 100%;
+    }
+
+    .articulos-table th,
+    .articulos-table td {
+        text-align: left;
+    }
 }
