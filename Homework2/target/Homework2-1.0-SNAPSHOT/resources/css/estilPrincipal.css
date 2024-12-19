@@ -1,95 +1,195 @@
-/* Reseteo básico para evitar estilos predeterminados */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-/* Estilado general de la página */
 body {
     font-family: Arial, sans-serif;
-    line-height: 1.6;
-    background-color: #f5f5f5;
+    background: #f7f7f7;
+    margin: 0;
+    padding: 0;
 }
 
-/* Encabezado principal */
+/* Cabecera */
 .header {
-    background-color: #333;
-    color: #fff;
-    padding: 10px 20px;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end; 
     align-items: center;
-    border-bottom: 2px solid #555;
+    background: #333;
+    padding: 10px 20px;
 }
 
-.header h1 {
-    font-size: 24px;
-}
-
-/* Botones en el encabezado */
 .header-buttons {
     display: flex;
-    gap: 10px; /* Espacio entre los botones */
+    gap: 10px; 
 }
 
 .header-buttons button {
-    background-color: #555;
+    background: #555;
     color: #fff;
     border: none;
-    padding: 8px 15px;
+    padding: 10px 16px; /* Aumentamos un poco el padding del botón */
     cursor: pointer;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
+    border-radius: 4px;
 }
-
 .header-buttons button:hover {
-    background-color: #777;
+    background: #777;
 }
 
-/* Contenedor principal con la tabla responsive */
+/* Contenedor principal centrado */
 .container {
-    padding: 20px;
-}
-
-/* Tabla Responsive */
-.table-container {
-    overflow-x: auto;
-    margin-top: 20px;
-}
-
-.articulos-table {
-    width: 100%;
-    border: 1px solid #ccc;
-    border-collapse: collapse;
-}
-
-.articulos-table th,
-.articulos-table td {
-    border: 1px solid #ccc;
-    padding: 10px;
+    max-width: 1200px;   
+    margin: 0 auto;      
+    padding: 40px; /* Aumenta el padding para más espacio alrededor */
     text-align: center;
 }
 
-.articulos-table th {
-    background-color: #333;
+.container h1 {
+    font-size: 28px; /* Título más grande */
+    margin-bottom: 30px;
+}
+
+/* Contenedor de artículos */
+.article-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px; /* Aumentamos la separación entre tarjetas */
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.article {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 8px; /* un poco más de redondeado */
+    padding: 20px; /* más espacio interno */
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    width: 300px; /* Tarjetas más anchas */
+    max-width: 100%;
+    box-sizing: border-box;
+    line-height: 1.5; /* Espacio entre líneas mayor */
+}
+
+.article:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1); /* Sombra un poco más suave */
+}
+
+.article-details {
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Más espacio entre elementos */
+    text-align: left; 
+}
+
+.article-title {
+    font-size: 20px;  /* Texto más grande del título */
+    margin: 0;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.article-details p {
+    margin: 0;
+    font-size: 16px; /* Texto más grande en el resto del contenido */
+    color: #333;
+    line-height: 1.4; /* Espacio entre líneas cómodo */
+}
+
+.article-details p strong {
+    color: #000;
+}
+
+/* Cabecera */
+.header {
+    display: flex;
+    justify-content: center; /* Centra el contenido */
+    align-items: center;
+    background: #333;
+    padding: 5px 20px; /* Reduce la altura para no verse vacía */
+    position: relative; /* Necesario para el posicionamiento del botón de login */
+}
+
+/* Contenedor de la cabecera, para alinear los elementos a la izquierda y derecha */
+.header-content {
+    display: flex;
+    justify-content: space-between; /* Espacio entre la barra de búsqueda y el botón de login */
+    width: 100%; /* Ocupa todo el ancho disponible */
+    max-width: 1200px; /* Limita el tamaño máximo */
+    align-items: center; /* Alinea los elementos verticalmente */
+}
+
+/* Barra de búsqueda */
+.header-search {
+    flex: 1;
+    display: flex;
+    justify-content: center; /* Centra la barra de búsqueda dentro de su contenedor */
+}
+
+/* Estilo del formulario de búsqueda */
+.search-form {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    padding: 5px 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+    width: 100%; /* Ocupa todo el espacio disponible */
+    max-width: 500px; /* Limita el tamaño máximo de la barra */
+}
+
+.search-form:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.search-bar {
+    flex: 1;
+    border: none;
+    outline: none;
+    padding: 8px;
+    font-size: 16px;
+    border-radius: 20px;
+    background: transparent;
+    height: 36px; /* Igual a la altura del botón */
+}
+
+.search-button {
+    background: #333;
     color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background 0.3s ease;
 }
 
-/* Estilado para el diseño de filas de 3 artículos por fila */
-.table-container .articulos-table tr:nth-child(3n) {
-    border-bottom: 2px solid #333;
+.search-button:hover {
+    background: #555;
 }
 
-/* Responsividad */
-@media (max-width: 768px) {
-    .articulos-table td {
-        display: block;
-        width: 100%;
-    }
-
-    .articulos-table th,
-    .articulos-table td {
-        text-align: left;
-    }
+/* Botón de Login */
+.header-buttons {
+    position: absolute;
+    top: 10px; /* Distancia desde la parte superior */
+    right: 20px; /* Distancia desde la parte derecha */
 }
+
+.header-buttons button {
+    background: #555;
+    color: #fff;
+    border: none;
+    padding: 10px 16px;
+    cursor: pointer;
+    border-radius: 4px;
+    height: 36px; /* Igual a la altura de la barra de búsqueda */
+}
+
+.header-buttons button:hover {
+    background: #777;
+}
+
+

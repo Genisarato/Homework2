@@ -20,11 +20,11 @@ public class ArticleServiceImpl implements ArticleService{
     
     private final WebTarget webTarget;
     private final jakarta.ws.rs.client.Client client;
-    private static final String BASE_URI = "http://localhost:8080/Homework1/rest/api/v1/";
+    private static final String BASE_URI = "http://localhost:8080/Homework1/rest/api/v1/article/all";
     
     public ArticleServiceImpl() {
         client = jakarta.ws.rs.client.ClientBuilder.newClient();
-        webTarget = client.target(BASE_URI).path("article/all");
+        webTarget = client.target(BASE_URI);
     }
    
     @Override
