@@ -23,6 +23,8 @@ public class ArticleResposta {
     private String descripcio;
     private List<String> topics;
     private String lastArticle;
+    private String imatge;
+    private boolean privat;
 
     public ArticleResposta() {
     }
@@ -81,6 +83,22 @@ public class ArticleResposta {
 
     public void setLastArticle(String lastArticle) {
         this.lastArticle = lastArticle;
+    }
+
+    public String getImatge() {
+        return imatge;
+    }
+
+    public boolean isPrivat() {
+        return privat;
+    }
+
+    public void setImatge(String imatge) {
+        this.imatge = imatge;
+    }
+
+    public void setPrivat(boolean privat) {
+        this.privat = privat;
     }
     
     

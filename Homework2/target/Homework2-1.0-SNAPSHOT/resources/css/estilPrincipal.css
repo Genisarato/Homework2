@@ -1,128 +1,38 @@
-body {
-    font-family: Arial, sans-serif;
-    background: #f7f7f7;
-    margin: 0;
-    padding: 0;
-}
-
-/* Cabecera */
+/* Cabecera fija en la parte superior */
 .header {
     display: flex;
-    justify-content: flex-end; 
+    justify-content: space-between; /* Espacio entre la barra de búsqueda y los botones */
     align-items: center;
     background: #333;
     padding: 10px 20px;
-}
-
-.header-buttons {
-    display: flex;
-    gap: 10px; 
-}
-
-.header-buttons button {
-    background: #555;
-    color: #fff;
-    border: none;
-    padding: 10px 16px; /* Aumentamos un poco el padding del botón */
-    cursor: pointer;
-    border-radius: 4px;
-}
-.header-buttons button:hover {
-    background: #777;
-}
-
-/* Contenedor principal centrado */
-.container {
-    max-width: 1200px;   
-    margin: 0 auto;      
-    padding: 40px; /* Aumenta el padding para más espacio alrededor */
-    text-align: center;
-}
-
-.container h1 {
-    font-size: 28px; /* Título más grande */
-    margin-bottom: 30px;
-}
-
-/* Contenedor de artículos */
-.article-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 30px; /* Aumentamos la separación entre tarjetas */
-    justify-content: center;
-    margin-top: 20px;
-}
-
-.article {
-    background-color: #fff;
-    border: 1px solid #ccc;
-    border-radius: 8px; /* un poco más de redondeado */
-    padding: 20px; /* más espacio interno */
-    cursor: pointer;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    width: 300px; /* Tarjetas más anchas */
-    max-width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: 100%;
     box-sizing: border-box;
-    line-height: 1.5; /* Espacio entre líneas mayor */
 }
 
-.article:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1); /* Sombra un poco más suave */
-}
-
-.article-details {
-    display: flex;
-    flex-direction: column;
-    gap: 10px; /* Más espacio entre elementos */
-    text-align: left; 
-}
-
-.article-title {
-    font-size: 20px;  /* Texto más grande del título */
-    margin: 0;
-    font-weight: bold;
-    margin-bottom: 10px;
-}
-
-.article-details p {
-    margin: 0;
-    font-size: 16px; /* Texto más grande en el resto del contenido */
-    color: #333;
-    line-height: 1.4; /* Espacio entre líneas cómodo */
-}
-
-.article-details p strong {
-    color: #000;
-}
-
-/* Cabecera */
-.header {
-    display: flex;
-    justify-content: center; /* Centra el contenido */
-    align-items: center;
-    background: #333;
-    padding: 5px 20px; /* Reduce la altura para no verse vacía */
-    position: relative; /* Necesario para el posicionamiento del botón de login */
-}
-
-/* Contenedor de la cabecera, para alinear los elementos a la izquierda y derecha */
+/* Contenedor de los elementos dentro de la cabecera */
 .header-content {
     display: flex;
-    justify-content: space-between; /* Espacio entre la barra de búsqueda y el botón de login */
-    width: 100%; /* Ocupa todo el ancho disponible */
-    max-width: 1200px; /* Limita el tamaño máximo */
-    align-items: center; /* Alinea los elementos verticalmente */
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
-/* Barra de búsqueda */
+/* Barra de búsqueda centrada */
 .header-search {
     flex: 1;
     display: flex;
-    justify-content: center; /* Centra la barra de búsqueda dentro de su contenedor */
+    justify-content: center; /* Centra la barra de búsqueda */
 }
 
-/* Estilo del formulario de búsqueda */
+/* Estilo de la barra de búsqueda */
 .search-form {
     display: flex;
     align-items: center;
@@ -132,15 +42,11 @@ body {
     border-radius: 20px;
     padding: 5px 15px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    transition: box-shadow 0.3s ease;
-    width: 100%; /* Ocupa todo el espacio disponible */
-    max-width: 500px; /* Limita el tamaño máximo de la barra */
+    width: 100%;
+    max-width: 500px;
 }
 
-.search-form:hover {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
+/* Barra de texto */
 .search-bar {
     flex: 1;
     border: none;
@@ -149,9 +55,9 @@ body {
     font-size: 16px;
     border-radius: 20px;
     background: transparent;
-    height: 36px; /* Igual a la altura del botón */
 }
 
+/* Botón de búsqueda */
 .search-button {
     background: #333;
     color: #fff;
@@ -171,13 +77,17 @@ body {
     background: #555;
 }
 
-/* Botón de Login */
+/* Botones a la derecha */
 .header-buttons {
+    display: flex;
+    gap: 10px;
     position: absolute;
-    top: 10px; /* Distancia desde la parte superior */
-    right: 20px; /* Distancia desde la parte derecha */
+    top: 10px;
+    right: 20px; /* Alineación con la esquina superior derecha */
+    z-index: 1010; /* Asegura que los botones queden sobre otros elementos */
 }
 
+/* Estilo de los botones */
 .header-buttons button {
     background: #555;
     color: #fff;
@@ -185,11 +95,81 @@ body {
     padding: 10px 16px;
     cursor: pointer;
     border-radius: 4px;
-    height: 36px; /* Igual a la altura de la barra de búsqueda */
+    height: 36px;
+    transition: background 0.3s ease;
 }
 
 .header-buttons button:hover {
     background: #777;
 }
 
+/* Botón Articles alineado con el primer artículo */
+#h1 {
+    margin-left: 20px;
+}
 
+.article-button-container {
+    margin-left: 20px;
+    display: flex;
+    justify-content: flex-start;
+}
+/* Contenedor principal centrado */
+.container {
+    margin-top: 120px; /* Asegura que el contenido no quede tapado por la cabecera fija */
+}
+
+/* Contenedor de los artículos en cuadrícula 3x3 */
+.article-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    padding: 20px;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+/* Estilo de cada artículo */
+.article {
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+    text-align: center;
+    overflow: hidden;
+}
+
+/* Efecto hover para las tarjetas */
+.article:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Imágenes dentro de las tarjetas de artículos */
+.article-img {
+    width: 100%;
+    height: auto;
+    max-height: 200px;
+    border-radius: 8px;
+    object-fit: cover;
+    margin-bottom: 15px;
+}
+
+/* Título y contenido del artículo */
+.article-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+/* Estilo para los topics */
+.article-topics {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 10px;
+}
+
+/* Estilo de los detalles del artículo */
+.article-details p strong {
+    font-size: 16px;
+    color: #333;
+}

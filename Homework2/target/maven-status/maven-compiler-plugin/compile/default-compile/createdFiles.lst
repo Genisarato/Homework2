@@ -9,6 +9,7 @@ deim\urv\cat\homework2\MvcEventListener.class
 deim\urv\cat\homework2\model\User.class
 deim\urv\cat\homework2\controller\SignUpFormController.class
 deim\urv\cat\homework2\service\ArticleServiceImpl.class
+deim\urv\cat\homework2\controller\CreateArticleController.class
 deim\urv\cat\homework2\Property.class
 deim\urv\cat\homework2\controller\IndexController.class
 deim\urv\cat\homework2\service\ArticleServiceImpl$1.class

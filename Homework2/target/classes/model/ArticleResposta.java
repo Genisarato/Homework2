@@ -15,6 +15,8 @@ import java.util.List;
 //Clase auxiliar per a només retornar certes coses de Article
 public class ArticleResposta {
     private String titol;
+    private String imatge;
+    private boolean privat;
     private String nom_Aut;
     private int n_views;
     private Date data_publi;
@@ -80,6 +82,23 @@ public class ArticleResposta {
     public void setLastArticle(String lastArticle) {
         this.lastArticle = lastArticle;
     }
+
+    public String getImatge() {
+        return imatge;
+    }
+
+    public boolean isPrivat() {
+        return privat;
+    }
+
+    public void setImatge(String imatge) {
+        this.imatge = imatge;
+    }
+
+    public void setPrivat(boolean privat) {
+        this.privat = privat;
+    }
+    
     
     
 }

@@ -72,6 +72,7 @@ public class ArticleService extends AbstractFacade<Article>{
     haure de fer que me busque segons lo nom i no segons lo id pq sino no aclarim res
     llavors haure de canviar la query
     pa pugue fer lo find
+    i implementar que al fer lo post de usuaris ps no se puguen repiti noms q sino caguem
     
     */
     @GET
@@ -151,6 +152,8 @@ public class ArticleService extends AbstractFacade<Article>{
             nou.setN_views(a.getNum_views());
             nou.setNom_Aut(a.getAutor().getNom());
             nou.setData_publi(a.getData_publi());
+            nou.setImatge(a.getImatge());
+            nou.setPrivat(a.isPrivat());
             for(Topic t : topicsresult){
                 nomTopics.add(t.getName());
             }
@@ -187,6 +190,8 @@ public class ArticleService extends AbstractFacade<Article>{
             nou.setN_views(a.getNum_views());
             nou.setNom_Aut(a.getAutor().getNom());
             nou.setData_publi(a.getData_publi());
+            nou.setImatge(a.getImatge());
+            nou.setPrivat(a.isPrivat());
             for(Topic t : topicsresult){
                 nomTopics.add(t.getName());
             }
@@ -224,6 +229,8 @@ public class ArticleService extends AbstractFacade<Article>{
                     nou.setN_views(a.getNum_views());
                     nou.setNom_Aut(a.getAutor().getNom());
                     nou.setData_publi(a.getData_publi());
+                    nou.setImatge(a.getImatge());
+                    nou.setPrivat(a.isPrivat());
                     topicsresult = a.getTopics();
                     for(Topic t : topicsresult){
                         nomTopics.add(t.getName());
@@ -287,7 +294,6 @@ public class ArticleService extends AbstractFacade<Article>{
     //FET i funcional
     @POST
     @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    @Secured
     public Response crearArticle(Article e){
         //comprovar que asta registrat
         Usuari autor = e.getAutor();
@@ -296,9 +302,9 @@ public class ArticleService extends AbstractFacade<Article>{
          Usuari autorBD;
         try {
             // Recuperamos el usuario por su ID desde la base de datos
-            String queryAutor = "SELECT u FROM Usuari u WHERE u.id = :id";
+            String queryAutor = "SELECT u FROM Usuari u WHERE u.nom LIKE :nom";
             autorBD = em.createQuery(queryAutor, Usuari.class)
-                        .setParameter("id", autor.getId())
+                        .setParameter("nom", autor.getNom())
                         .getSingleResult();
         } catch (NoResultException ex) {
             return Response.status(Response.Status.NOT_FOUND).entity("Usuari no trobat").build();
@@ -319,6 +325,7 @@ public class ArticleService extends AbstractFacade<Article>{
         if(llistaTopics.size() != resultatNoms.size())return Response.status(Response.Status.BAD_REQUEST).entity("Un o més tòpics no són vàlids").build();
         e.setData_publi(new Date());
         e.setTopics(resultatNoms);
+        e.setAutor(autorBD);
         //e.setPrivat(false);
         em.persist(e);
         autorBD.addArticle(e);

@@ -3,11 +3,11 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Articles</title>
+    <title>Homework2</title>
     <link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/estilPrincipal.css'/>">
 </head>
 <body>
-    <!-- Cabecera con botones a la derecha -->
+    <!-- Cabecera con barra de búsqueda, login y crear artículo -->
     <header class="header">
         <div class="header-content">
             <!-- Barra de búsqueda -->
@@ -18,9 +18,12 @@
                 </form>
             </div>
 
-            <!-- Botón de login a la derecha -->
+            <!-- Botones a la derecha -->
             <div class="header-buttons">
-                <form action="<c:url value='/articles'/>" method="GET">
+                <form action="<c:url value='/Web/createArticle'/>" method="GET">
+                    <button type="submit">Crear Articles</button>
+                </form>
+                <form action="<c:url value='/Web/login'/>" method="GET">
                     <button type="submit">Login</button>
                 </form>
             </div>
@@ -30,7 +33,9 @@
     <!-- Contenedor principal centrado -->
     <main class="container">
         <h1>Articles</h1>
-        <div class="article-container"></div>
+        <div class="article-container">
+            <!-- Aquí se mostrarán los artículos -->
+        </div>
     </main>
 
     <!-- Scripts -->

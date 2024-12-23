@@ -40,6 +40,7 @@ public class Article {
     private String imatge;
 
     @ManyToOne
+    @JoinColumn(name = "autor_id", nullable = false)
     private Usuari autor;
 
     private int num_views;
