@@ -23,6 +23,7 @@ public class ArticleResposta {
     private String descripcio;
     private List<String> topics;
     private String lastArticle;
+    private int id;
 
     public ArticleResposta() {
     }
@@ -97,6 +98,14 @@ public class ArticleResposta {
 
     public void setPrivat(boolean privat) {
         this.privat = privat;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
     
     

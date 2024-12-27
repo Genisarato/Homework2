@@ -5,6 +5,13 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Homework2</title>
     <link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/estilPrincipal.css'/>">
+    <script>
+        // Función para manejar el clic en el botón de volver
+        function goBack(event) {
+            event.preventDefault(); // Evitar que el formulario se envíe
+            window.location.href = "<c:url value='/Web/Principal'/>"; // Redirigir a la página principal
+        }
+    </script>
 </head>
 <body>
     <!-- Cabecera con barra de búsqueda, login y crear artículo -->
@@ -64,10 +71,22 @@
                 <textarea id="descripcio" name="descripcio" class="form-input" rows="4" required></textarea>
             </div>
             <div class="form-group">
-                <input type="hidden" name="data_publi" value="<%= new java.util.Date() %>"> <!-- La fecha se establece automáticamente -->
+                <input type="hidden" name="data_publi" value="<%= new java.util.Date() %>">
             </div>
-            <div class="form-group">
-                <button type="submit" class="submit-button">Crear Article</button>
+
+            <!-- Contenedor para los botones -->
+            <div class="button-container">
+                <!-- Botón para volver -->
+                <div class="back-button-container">
+                    <button type="button" onclick="goBack(event)" class="back-button">
+                        Cancelar
+                    </button>
+                </div>
+
+                <!-- Botón para crear artículo -->
+                <div class="create-button-container">
+                    <button type="submit" class="back-button">Crear Article</button>
+                </div>
             </div>
         </form>
     </main>
@@ -107,20 +126,52 @@
             outline: none;
         }
 
-        .submit-button {
-            background-color: #333;
-            color: white;
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center; /* Alineación vertical */
+            width: 100%;
+            margin-top: 20px;
+            gap: 20px;
+        }
+
+        .back-button-container,
+        .create-button-container {
+            display: flex;
+            justify-content: center;
+            align-items: center; /* Centra verticalmente el botón */
+            width: 48%;
+            margin: 0; /* Asegura que no haya margen extra */
+            padding: 0;
+        }
+
+        /* Botones */
+        .back-button,
+        .create-button-container button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;          /* Sin margen extra */
+            padding: 0 20px;    /* Ajusta si quieres más/menos espacio horizontal */
+            width: 100%;        /* Que llene el contenedor */
+            max-width: 200px;
+            height: 50px;       /* Misma altura */
+            line-height: 1;     /* Asegura que no haya un salto de línea adicional */
+            box-sizing: border-box;
+            background-color: #f1f1f1;
+            color: #333;
             border: none;
-            padding: 10px 20px;
-            font-size: 16px;
             border-radius: 5px;
+            font-size: 16px;
             cursor: pointer;
             transition: background-color 0.3s ease;
         }
 
-        .submit-button:hover {
-            background-color: #555;
+        .back-button:hover,
+        .create-button-container button:hover {
+            background-color: #ddd;
         }
+
     </style>
 </body>
 </html>

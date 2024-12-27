@@ -20,6 +20,10 @@
 
             <!-- Botones a la derecha -->
             <div class="header-buttons">
+                <!-- Nuevo botón para filtrar -->
+                <form action="<c:url value='/Web/filtrar'/>" method="GET">
+                    <button type="submit">Filtrar</button>
+                </form>
                 <form action="<c:url value='/Web/createArticle'/>" method="GET">
                     <button type="submit">Crear Articles</button>
                 </form>

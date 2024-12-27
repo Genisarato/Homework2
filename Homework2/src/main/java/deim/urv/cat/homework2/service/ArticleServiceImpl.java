@@ -29,9 +29,38 @@ public class ArticleServiceImpl implements ArticleService{
     }
    
     @Override
-    public List<ArticleResposta> getByTopicAndUser(long authorId, long... topicsId) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public List<ArticleResposta> getByTopicAndUser(String authorId, String... topicsId) {
+        try {
+            System.out.println("Realizando llamada REST al servidor en: " + webTarget.getUri());
+
+            // Crear el webTarget con los parámetros
+            WebTarget targetWithParams = webTarget.queryParam("author", authorId);
+
+            // Si existen topics, añadirlos como parámetros adicionales
+            if (topicsId != null && topicsId.length > 0) {
+                targetWithParams = targetWithParams.queryParam("topics", String.join(",", topicsId));
+            }
+
+            // Realizar la llamada GET con los parámetros
+            Response response = targetWithParams.request(MediaType.APPLICATION_JSON).get();
+
+            System.out.println("Código de estado de la respuesta: " + response.getStatus());
+
+            if (response.getStatus() == 200) {
+                List<ArticleResposta> articles = response.readEntity(new jakarta.ws.rs.core.GenericType<List<ArticleResposta>>() {});
+                System.out.println("Artículos recuperados: " + articles);
+                return articles;
+            } else {
+                System.err.println("Error al realizar la llamada: Código de respuesta = " + response.getStatus());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
+
+
 
     @Override
     public List<ArticleResposta> getAllArticle() {
@@ -59,7 +88,25 @@ public class ArticleServiceImpl implements ArticleService{
 
     @Override
     public ArticleResposta getArticleById(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        try {
+            System.out.println("Realizando llamada REST al servidor en: " + webTarget.getUri());
+            System.out.println("Realizando llamada REST al servidor en: " + webTarget.getUri());
+            // Añadimos el path("/all") para acceder al endpoint correcto
+            Response response = webTarget.path("/"+ id).request(MediaType.APPLICATION_JSON).get();
+
+            System.out.println("Código de estado de la respuesta: " + response.getStatus());
+
+            if (response.getStatus() == 200) {
+                ArticleResposta article = response.readEntity(ArticleResposta.class);
+                return article;
+            } else {
+                System.err.println("Error al realizar la llamada: Código de respuesta = " + response.getStatus());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
     @Override

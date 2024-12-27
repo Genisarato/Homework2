@@ -14,7 +14,7 @@ import jakarta.ws.rs.core.Response;
  * @author USUARIO
  */
 public interface ArticleService {
-    public List<ArticleResposta> getByTopicAndUser(long authorId, long... topicsId);
+    public List<ArticleResposta> getByTopicAndUser(String authorId, String... topicsId);
     public List<ArticleResposta> getAllArticle();
     public ArticleResposta getArticleById(int id);
     public int crearArticle(Article nou);

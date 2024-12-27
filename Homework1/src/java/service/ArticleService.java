@@ -77,73 +77,90 @@ public class ArticleService extends AbstractFacade<Article>{
     */
     @GET
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public Response getByTopicAndUser(@QueryParam("author") long author, @QueryParam("topic") long... topics) {
+    public Response getByTopicAndUser(@QueryParam("author") String author, @QueryParam("topic") String... topics) {
 
         Usuari autorBD = null;
         List<Topic> resultatNoms = null;
-        String query = "SELECT a FROM Article a WHERE 1=1";
+        String query = "SELECT a FROM Article a";
 
-        //Recuperem autor per a fer l'=
-        if (author > 0) {
+        // Recuperar el autor
+        if (author != null && !author.trim().isEmpty()) {
             try {
-                autorBD = em.find(Usuari.class, author);  // Comparar el objeto 'autorBD' en la consulta
-                query += " AND a.autor=:author";
-            
+                // Asegurarse de usar los signos de porcentaje para la búsqueda parcial
+                TypedQuery<Usuari> queryUsr = em.createQuery("SELECT u FROM Usuari u WHERE u.nom LIKE :author", Usuari.class);
+                queryUsr.setParameter("author", "%" + author.trim() + "%"); // Búsqueda parcial, % antes y después
+                queryUsr.setMaxResults(1); // Limita a un resultado
+                autorBD = queryUsr.getSingleResult();
             } catch (NoResultException ex) {
-                return Response.status(Response.Status.NOT_FOUND).entity("Usuai no registrat").build();
+                return Response.status(Response.Status.NOT_FOUND).entity("Usuari no registrat").build();
             }
         }
 
-        // Validem tòpics com en el post i capem a 2
-        //Decicions de disseny
+        // Validar los tópicos y capar a un máximo de 2
         if (topics != null && topics.length > 0) {
             try {
-                List<Long> primers2 = Arrays.stream(topics)  // Com passem ids hem de agafar i limitar a 2 i volem la llista
-                                   .limit(2)       
-                                   .boxed()        
-                                   .collect(Collectors.toList());
-                // Mateix procediment que en el post, busquem que la size que serà 1 o 2 sigue igual ja que ens indicara que els tòpics existeixen
-                String existQuery = "SELECT t FROM Topic t WHERE t.id IN :ids";
+                List<String> primeros2nombres = Arrays.stream(topics)
+                                                     .limit(2)
+                                                     .map(String::trim)
+                                                     .collect(Collectors.toList());
+
+                // Consulta por nombre del topic, no por ID
+                String existQuery = "SELECT t FROM Topic t WHERE t.name IN :noms";
                 resultatNoms = em.createQuery(existQuery, Topic.class)
-                                 .setParameter("ids", primers2)  // Usamos los IDs directamente
+                                 .setParameter("noms", primeros2nombres)
                                  .getResultList();
-                //Comprovació de la size
-                if (resultatNoms.size() != primers2.size()) {
-                    return Response.status(Response.Status.BAD_REQUEST).entity("Un o més tòpics no són vàlids").build();
+
+                // Verificar que existan todos los tópicos
+                if (resultatNoms.size() != primeros2nombres.size()) {
+                    return Response.status(Response.Status.BAD_REQUEST)
+                                   .entity("Un o més tòpics no són vàlids")
+                                   .build();
                 }
-                query += " AND a.topics IN :topics";  //I ficar la part de la consulta necessària
+
+                // Si hay tópicos, añadir el JOIN
+                query += " JOIN a.topics top WHERE top IN :topics";
             } catch (NoResultException ex) {
                 return Response.status(Response.Status.NOT_FOUND).entity("Topics no existents").build();
             }
+        } else {
+            // Si no hay tópicos, no añadir el JOIN
+            query += " WHERE 1=1";
         }
-        
-        //Ordenem segons les views
+
+        // Añadir filtro por autor si está presente
+        if (author != null && !author.trim().isEmpty()) {
+            query += " AND a.autor = :author";  // Filtro por autor
+        }
+
+        // Ordenar por vistas
         query += " ORDER BY a.num_views DESC";
 
         // Crear la consulta final
         TypedQuery<Article> consulta = em.createQuery(query, Article.class);
 
-        // Fiquem autor si hi ha
-        if (author > 0) {
-            consulta.setParameter("author", autorBD);  // Pasamos el objeto completo 'autorBD'
-        }
-        
-        //Fiquem la llista de topics a la consulta
-        if (topics != null && topics.length > 0) {
-            consulta.setParameter("topics", resultatNoms);  // Pasamos la lista completa de objetos 'Topic'
+        // Establecer parámetros en la consulta
+        if (author != null && !author.trim().isEmpty()) {
+            consulta.setParameter("author", autorBD);  // Pasar el objeto completo 'autorBD'
         }
 
-        //Executem la query
+        // Añadir la lista de topics a la consulta si es necesario
+        if (resultatNoms != null && !resultatNoms.isEmpty()) {
+            consulta.setParameter("topics", resultatNoms);  // Pasar la lista completa de objetos 'Topic'
+        }
+
+        // Ejecutar la consulta
         List<Article> articlesList = consulta.getResultList();
 
-        // Si no trobem cap llençem un 404
+        // Si no se encuentran resultados, retornar un 404
         if (articlesList.isEmpty()) {
             return Response.status(Response.Status.NOT_FOUND)
                            .entity("No hi ha articles d'aquest autor/amb aquest tòpics.")
                            .build();
         }
+
+        // Convertir los resultados a un formato adecuado
         List<ArticleResposta> result = new ArrayList<>();
-        for(Article a : articlesList){
+        for (Article a : articlesList) {
             List<String> nomTopics = new ArrayList<>();
             Collection<Topic> topicsresult = a.getTopics();
             ArticleResposta nou = new ArticleResposta();
@@ -154,18 +171,23 @@ public class ArticleService extends AbstractFacade<Article>{
             nou.setData_publi(a.getData_publi());
             nou.setImatge(a.getImatge());
             nou.setPrivat(a.isPrivat());
-            for(Topic t : topicsresult){
+            nou.setId(a.getId());
+            for (Topic t : topicsresult) {
                 nomTopics.add(t.getName());
             }
             nou.setTopics(nomTopics);
             result.add(nou);
         }
+
         GenericEntity<List<ArticleResposta>> resultatxml = new GenericEntity<List<ArticleResposta>>(result) {};
-        //Es retorna la llista de articles
+
+        // Retornar la lista de artículos
         return Response.status(Response.Status.OK)
                        .entity(resultatxml)
                        .build();
     }
+
+
     
     @GET
     @Path("/all")
@@ -192,6 +214,7 @@ public class ArticleService extends AbstractFacade<Article>{
             nou.setData_publi(a.getData_publi());
             nou.setImatge(a.getImatge());
             nou.setPrivat(a.isPrivat());
+            nou.setId(a.getId());
             for(Topic t : topicsresult){
                 nomTopics.add(t.getName());
             }
@@ -232,6 +255,7 @@ public class ArticleService extends AbstractFacade<Article>{
                     nou.setImatge(a.getImatge());
                     nou.setPrivat(a.isPrivat());
                     topicsresult = a.getTopics();
+                    nou.setId(a.getId());
                     for(Topic t : topicsresult){
                         nomTopics.add(t.getName());
                     }
@@ -247,10 +271,12 @@ public class ArticleService extends AbstractFacade<Article>{
                 ArticleResposta nou = new ArticleResposta();
                 nou.setTitol(a.getTitol());
                 nou.setDescripcio(a.getDescripcio());
+                nou.setImatge(a.getImatge());
                 nou.setN_views(a.getNum_views());
                 nou.setNom_Aut(a.getAutor().getNom());
                 nou.setData_publi(a.getData_publi());
                 topicsresult = a.getTopics();
+                nou.setId(a.getId());
                 for(Topic t : topicsresult){
                     nomTopics.add(t.getName());
                 }

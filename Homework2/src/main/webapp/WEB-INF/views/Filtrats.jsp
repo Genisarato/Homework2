@@ -43,7 +43,23 @@
     </main>
 
     <!-- Scripts -->
+     <!-- Scripts -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="<c:url value='/resources/js/LlistaArticles.js'/>"></script>
+    <script src="<c:url value='/resources/js/LListaFiltrats.js'/>"></script>
+    <script>
+        // Aquí, 'articles' es una variable que contiene el JSON de los artículos que pasaste desde el backend.
+        var articles = JSON.parse('${articles}');  // Esto inyecta el JSON directamente en la variable de JavaScript
+
+        // Aquí es donde puedes usar la variable 'articles' en tu código JS
+        $(document).ready(function () {
+            carregarArticles(articles);  // Pasamos los artículos al script
+        });
+    </script>
+    <!-- Botón para volver -->
+    <div class="back-button-container">
+        <form action="<c:url value='/Web/Principal'/>" method="GET">
+            <button type="submit" class="back-button">Volver a la pàgina principal</button>
+        </form>
+    </div>
 </body>
 </html>

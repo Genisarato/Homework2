@@ -42,33 +42,14 @@
         <h1>Crear Nou Article</h1>
         
         <!-- Formulario centrado -->
-        <form action="<c:url value='/Web/createArticle'/>" method="POST" class="form-container">
-            <div class="form-group">
-                <label for="titol">Títol</label>
-                <input type="text" id="titol" name="titol" class="form-input" required>
-            </div>
-            <div class="form-group">
-                <label for="imatge">Imatge (URL)</label>
-                <input type="text" id="imatge" name="imatge" class="form-input" placeholder="Pega el link aquí" required>
-            </div>
+        <form action="<c:url value='/Web/filtrar'/>" method="POST" class="form-container">
             <div class="form-group">
                 <label for="autor">Autor</label>
-                <input type="text" id="autor" name="autor" class="form-input" required>
+                <input type="text" id="autor" name="autor" class="form-input" >
             </div>
             <div class="form-group">
                 <label for="topics">Tòpics</label>
-                <input type="text" id="topics" name="topics" class="form-input" placeholder="Coma separada" required>
-            </div>
-            <div class="form-group">
-                <label for="privat">Privat</label>
-                <select id="privat" name="privat" class="form-input" required>
-                    <option value="true">Sí</option>
-                    <option value="false">No</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="descripcio">Descripció</label>
-                <textarea id="descripcio" name="descripcio" class="form-input" rows="4" required></textarea>
+                <input type="text" id="topics" name="topics" class="form-input" placeholder="Coma separada" >
             </div>
             <div class="form-group">
                 <input type="hidden" name="data_publi" value="<%= new java.util.Date() %>">
@@ -85,7 +66,7 @@
 
                 <!-- Botón para crear artículo -->
                 <div class="create-button-container">
-                    <button type="submit" class="back-button">Crear Article</button>
+                    <button type="submit" class="back-button">Cercar</button>
                 </div>
             </div>
         </form>

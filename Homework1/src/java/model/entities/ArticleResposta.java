@@ -25,6 +25,7 @@ public class ArticleResposta {
     private String lastArticle;
     private String imatge;
     private boolean privat;
+    private int id;
 
     public ArticleResposta() {
     }
@@ -99,6 +100,14 @@ public class ArticleResposta {
 
     public void setPrivat(boolean privat) {
         this.privat = privat;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
     
     

@@ -46,16 +46,16 @@ function carregarIActualitzarArticles() {
                 var topics = Array.isArray(article.topics) && article.topics.length > 0 ? article.topics.join(", ") : "No disponible";
 
                 $(".article-container").append(`
-                    <div class="article" data-id="${article.n_views || 0}">
+                    <div class="article" data-id="${article.id || 0}">
                         <div class="article-details">
                             <img src="${imagen}" alt="${article.titol || "Títol no disponible"}" class="article-img">
                             <p class="article-title">${article.titol || "Títol no disponible"}</p>
                             <p><strong>${iconoCandado}</strong></p>
                             <p><strong>Autor:</strong> ${article.nom_Aut || "Autor desconegut"}</p>
                             <p><strong>Publicació:</strong> ${fechaPublicacion}</p>
-                            <p><strong>Descripció:</strong> ${article.descripcio || "Sense descripció"}</p>
-                            <p><strong>Visualitzacions:</strong> ${article.n_views || 0}</p>
-                            <p><strong>Tòpics:</strong> ${topics}</p>
+                            <div class="article-views">
+                                <span class="eye-icon">👁️</span> ${article.n_views}
+                            </div>
                         </div>
                     </div>
                 `);
@@ -77,7 +77,7 @@ function carregarIActualitzarArticles() {
 function assignarEsdevenimentsArticles() {
     $(".article").off("click").on("click", function () {
         var articleId = $(this).data("id");
-        // Llamar a openModal o realizar otra acción
-        console.log("Clic en el artículo con ID:", articleId);
+        // Redirigir a la página de detalles del artículo
+        window.location.href = `/Homework2/Web/article/${articleId}`;
     });
 }
