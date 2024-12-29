@@ -7,20 +7,9 @@
     <link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/estilPrincipal.css'/>">
 </head>
 <body>
-    <!-- Cabecera con barra de búsqueda, login y crear artículo -->
     <header class="header">
         <div class="header-content">
-            <!-- Barra de búsqueda -->
-            <div class="header-search">
-                <form action="<c:url value='/search'/>" method="GET" class="search-form">
-                    <input type="text" name="query" placeholder="Buscar artículos..." class="search-bar">
-                    <button type="submit" class="search-button">🔍</button>
-                </form>
-            </div>
-
-            <!-- Botones a la derecha -->
             <div class="header-buttons">
-                <!-- Nuevo botón para filtrar -->
                 <form action="<c:url value='/Web/filtrar'/>" method="GET">
                     <button type="submit">Filtrar</button>
                 </form>
@@ -34,31 +23,42 @@
         </div>
     </header>
 
-    <!-- Contenedor principal centrado -->
     <main class="container">
         <h1>Articles</h1>
         <div class="article-container">
-            <!-- Aquí se mostrarán los artículos -->
+            <!-- Verificar si hay artículos -->
+            <c:if test="${not empty articles}">
+                <c:forEach var="article" items="${articles}">
+                    <!-- Asignar valores por defecto a las variables -->
+                    <c:set var="imagen" value="${article.imatge != null ? article.imatge : 'https://via.placeholder.com/150'}"/>
+                    <c:set var="iconoCandado" value="${article.privat == true ? '🔒' : '🔓'}"/>
+
+                    <!-- Eliminar el manejo de la fecha -->
+                    <c:set var="fechaPubliValida" value="${article.data_publi != null ? article.data_publi.replace('[UTC]', '') : null}"/>
+
+                    <div class="article" data-id="${article.id}">
+                        <div class="article-details">
+                            <img src="${imagen}" alt="${article.titol != null ? article.titol : 'Títol no disponible'}" class="article-img">
+                            <p class="article-title">${article.titol != null ? article.titol : 'Títol no disponible'}</p>
+                            <p><strong>${iconoCandado}</strong></p>
+                            <p><strong>Autor:</strong> ${article.nom_Aut != null ? article.nom_Aut : 'Autor desconegut'}</p>
+                            <p><strong>Publicació:</strong> Data no disponible</p> <!-- Texto fijo por ahora -->
+                            <div class="article-views">
+                                <span class="eye-icon">👁️</span> ${article.n_views}
+                            </div>
+                        </div>
+                    </div>
+                </c:forEach>
+            </c:if>
+            <c:if test="${empty articles}">
+                <p>No se encontraron artículos.</p>
+            </c:if>
         </div>
     </main>
 
-    <!-- Scripts -->
-     <!-- Scripts -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="<c:url value='/resources/js/LListaFiltrats.js'/>"></script>
-    <script>
-        // Aquí, 'articles' es una variable que contiene el JSON de los artículos que pasaste desde el backend.
-        var articles = JSON.parse('${articles}');  // Esto inyecta el JSON directamente en la variable de JavaScript
-
-        // Aquí es donde puedes usar la variable 'articles' en tu código JS
-        $(document).ready(function () {
-            carregarArticles(articles);  // Pasamos los artículos al script
-        });
-    </script>
-    <!-- Botón para volver -->
     <div class="back-button-container">
         <form action="<c:url value='/Web/Principal'/>" method="GET">
-            <button type="submit" class="back-button">Volver a la pàgina principal</button>
+            <button type="submit" class="back-button">Volver a la página principal</button>
         </form>
     </div>
 </body>
