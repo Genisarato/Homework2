@@ -39,6 +39,7 @@ public class Usuari {
     private String dni;
     private int telef;
     private String username;
+    private String email;
 
     @OneToOne(cascade = CascadeType.PERSIST)
     private Link links;
@@ -84,6 +85,10 @@ public class Usuari {
         this.username = username;
     }
     
+    public void setEmail(String email) {
+        this.email = email;
+    }
+    
 
     public void setArticles(List<Article> articles) {
         this.articles = articles;
@@ -107,6 +112,10 @@ public class Usuari {
     
     public String getUsername() {
         return username;
+    }
+    
+    public String getEmail() {
+        return email;
     }
 
     public List<Article> getArticles() {

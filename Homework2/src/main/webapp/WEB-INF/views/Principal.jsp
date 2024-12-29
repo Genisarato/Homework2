@@ -30,6 +30,9 @@
                 <form action="<c:url value='/Web/login'/>" method="GET">
                     <button type="submit">Login</button>
                 </form>
+                <form action="<c:url value='/Web/SignUp'/>" method="GET">
+                    <button type="submit">Registrar-se</button>
+                </form>
             </div>
         </div>
     </header>

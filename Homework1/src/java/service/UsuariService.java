@@ -4,6 +4,7 @@
  */
 package service;
 
+import authn.Credentials;
 import authn.Secured;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -31,6 +32,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import model.entities.Article;
+import model.entities.CredentialsAux;
 import model.entities.Usuari;
 
 
@@ -83,6 +85,41 @@ public class UsuariService extends AbstractFacade<Usuari>{
        if (result != null) return Response.status(Response.Status.OK).entity(result).build();
         else return Response.status(Response.Status.NOT_FOUND).build();
     }
+    
+    @POST
+    @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    public Response addUser(Usuari u) {
+        try {
+            String dni = u.getDni();
+            String correu = u.getEmail();
+
+            // Consulta combinada per a verificar si el DNI o el correu electrònic ja existeixen
+            String existQuery = "SELECT u.nom FROM Usuaris u WHERE u.dni = :dni OR u.email = :correu";
+            List<String> resultats = em.createQuery(existQuery, String.class)
+                                       .setParameter("dni", dni)
+                                       .setParameter("correu", correu)
+                                       .getResultList();
+
+            if (!resultats.isEmpty()) {
+                // Retornar missatge de conflicte si ja existeix
+                return Response.status(Response.Status.CONFLICT)
+                               .entity("Ja existeix un usuari amb aquest DNI o correu electrònic.")
+                               .build();
+            }
+
+            // Persistir l'usuari si no hi ha conflicte
+            em.persist(u);
+            return Response.status(Response.Status.CREATED)
+                           .entity(u.getId())
+                           .build();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                           .entity("S'ha produït un error al servidor.")
+                           .build();
+        }
+    }
+
 
     @PUT
     @Path("/{id}")
@@ -92,15 +129,36 @@ public class UsuariService extends AbstractFacade<Usuari>{
     public Response modifyCustomerById(@PathParam ("id") long id, Usuari u2){
        Usuari u = em.find(Usuari.class, id);
        if (u == null) return Response.status(Response.Status.NOT_FOUND).build();
-       String queryText = "UPDATE Usuari SET nom = :nom, dni = :dni, telef = :telef, username = :username WHERE id = :id";
+       String queryText = "UPDATE Usuari SET nom = :nom, dni = :dni, telef = :telef, username = :username, email = :email WHERE id = :id";
        Query queryMod = em.createQuery(queryText);
        queryMod.setParameter("nom", u2.getNom());
        queryMod.setParameter("dni", u2.getDni());
        queryMod.setParameter("telef", u2.getTelef());
        queryMod.setParameter("username", u2.getUsername());
+       queryMod.setParameter("email", u2.getEmail());
        queryMod.setParameter("id", id);
        if (queryMod.executeUpdate() == 1) return Response.status(Response.Status.OK).build();
        else return Response.status(Response.Status.UNAUTHORIZED).build();
+    }
+    
+    
+    @POST
+    @Path("/LoginVerification")
+    @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    public Response loginCorrecte(CredentialsAux cAux){
+        try{
+           String username = cAux.getUsername();
+           String password = cAux.getPassword();
+           // Validar credenciales contra la base de datos
+           TypedQuery<Credentials> query = em.createNamedQuery("Credentials.findUser", Credentials.class);
+           Credentials c = query.setParameter("username", username).getSingleResult();
+
+           // Comprobar si las credenciales son válidas
+           if (c.getPassword().equals(password)) return Response.status(Response.Status.OK).build();
+           else return Response.status(Response.Status.UNAUTHORIZED).build();
+        }catch(Exception e){
+            return Response.status(Response.Status.UNAUTHORIZED).build();
+        }
     }
 }
 
