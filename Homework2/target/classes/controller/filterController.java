@@ -41,29 +41,37 @@ public class filterController {
        return "/WEB-INF/views/filterForm.jsp";
     }
     
-    @POST
+  @POST
     public String saveArticle(@FormParam("autor") String autor,
                               @FormParam("topics") String topics) {
 
-        // Si topics está vacío o es solo un único tema, se maneja adecuadamente
-        String[] llistaTopics;
-        
-        // Si el parámetro topics contiene comas, lo dividimos; si no, lo tratamos como un único tema
-        if (topics != null && !topics.trim().isEmpty()) {
-            // Si hay comas, dividimos los temas; si no, lo ponemos como un solo tema en el array
-            llistaTopics = topics.contains(",") ? topics.split(",") : new String[]{topics.trim()};
-        } else {
-            // Si no se proporciona ningún tema, manejamos el caso según sea necesario
-            llistaTopics = new String[0];  // O puedes manejar esto como un caso especial si es necesario
+        // Si no se pasa ningún tópico, no filtramos por tópicos
+        String[] llistaTopics = null;
+
+        // Si se pasa algún tópico, lo procesamos
+        if (topics != null && !topics.isEmpty()) {
+            String[] separats = topics.split(","); 
+            llistaTopics = new String[separats.length];
+
+            // Limpiamos los espacios en blanco alrededor de los tópicos
+            for (int i = 0; i < separats.length; i++) {
+                llistaTopics[i] = separats[i].trim();
+            }
         }
 
         // Llamar al servicio para obtener los artículos filtrados
-        List<ArticleResposta> resposta = articleService.getByTopicAndUser(autor, llistaTopics);
+        List<ArticleResposta> resposta;
+        if (llistaTopics != null) {
+            resposta = articleService.getByTopicAndUser(autor, llistaTopics);
+        } else {
+            // Si no se pasa ningún tópico, obtenemos todos los artículos del autor
+            resposta = articleService.getByTopicAndUser(autor, llistaTopics);
+        }
 
         // Agregar los artículos filtrados al modelo
         models.put("articles", resposta);
 
-        // Retornar la vista según el resultado
+        // Retornamos la vista correspondiente
         if (!resposta.isEmpty()) {
             return "/WEB-INF/views/Filtrats.jsp";
         } else {

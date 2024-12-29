@@ -41,23 +41,37 @@ public class filterController {
        return "/WEB-INF/views/filterForm.jsp";
     }
     
-    @POST
-    public String saveArticle(@FormParam("autor") String autor,
-                              @FormParam("topics") String topics) {
+  @POST
+    public String saveArticle(@FormParam("autor") String author,
+                              @FormParam("topics") String topic) {
 
-        String[] separats = topics.split(","); 
-        String[] llistaTopics = new String[separats.length];
+        // Si no se pasa ningún tópico, no filtramos por tópicos
+        String[] llistaTopics = null;
 
-        for (int i = 0; i < 2; i++) {
-            llistaTopics[i] = separats[i].trim();
+        // Si se pasa algún tópico, lo procesamos
+        if (topic != null && !topic.isEmpty()) {
+            String[] separats = topic.split(","); 
+            llistaTopics = new String[separats.length];
+
+            // Limpiamos los espacios en blanco alrededor de los tópicos
+            for (int i = 0; i < separats.length; i++) {
+                llistaTopics[i] = separats[i].trim();
+            }
         }
 
         // Llamar al servicio para obtener los artículos filtrados
-        List<ArticleResposta> resposta = articleService.getByTopicAndUser(autor, llistaTopics);
+        List<ArticleResposta> resposta;
+        if (llistaTopics != null) {
+            resposta = articleService.getByTopicAndUser(author, llistaTopics);
+        } else {
+            // Si no se pasa ningún tópico, obtenemos todos los artículos del autor
+            resposta = articleService.getByTopicAndUser(author, llistaTopics);
+        }
 
         // Agregar los artículos filtrados al modelo
         models.put("articles", resposta);
 
+        // Retornamos la vista correspondiente
         if (!resposta.isEmpty()) {
             return "/WEB-INF/views/Filtrats.jsp";
         } else {
