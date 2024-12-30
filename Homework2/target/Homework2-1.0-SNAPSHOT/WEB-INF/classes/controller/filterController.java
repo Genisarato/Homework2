@@ -17,6 +17,7 @@ import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -41,40 +42,29 @@ public class filterController {
        return "/WEB-INF/views/filterForm.jsp";
     }
     
-  @POST
-    public String saveArticle(@FormParam("autor") String autor,
-                              @FormParam("topics") String topics) {
-
-        // Si no se pasa ningún tópico, no filtramos por tópicos
+    @POST
+    public String saveArticle(@FormParam("autor") String author,
+                              @FormParam("topics") String topic) {
+        
+        System.out.println(author);
+        // Procesar los tópicos
         String[] llistaTopics = null;
-
-        // Si se pasa algún tópico, lo procesamos
-        if (topics != null && !topics.isEmpty()) {
-            String[] separats = topics.split(","); 
-            llistaTopics = new String[separats.length];
-
-            // Limpiamos los espacios en blanco alrededor de los tópicos
-            for (int i = 0; i < separats.length; i++) {
-                llistaTopics[i] = separats[i].trim();
-            }
+        if (topic != null && !topic.isEmpty()) {
+            llistaTopics = Arrays.stream(topic.split(","))
+                    .map(String::trim) // Elimina espacios externos
+                    .toArray(String[]::new);
         }
 
         // Llamar al servicio para obtener los artículos filtrados
-        List<ArticleResposta> resposta;
-        if (llistaTopics != null) {
-            resposta = articleService.getByTopicAndUser(autor, llistaTopics);
-        } else {
-            // Si no se pasa ningún tópico, obtenemos todos los artículos del autor
-            resposta = articleService.getByTopicAndUser(autor, llistaTopics);
-        }
+        List<ArticleResposta> resposta = articleService.getByTopicAndUser(author, llistaTopics);
 
-        // Agregar los artículos filtrados al modelo
-        models.put("articles", resposta);
-
-        // Retornamos la vista correspondiente
-        if (!resposta.isEmpty()) {
+        // Validar la respuesta
+        if (resposta != null && !resposta.isEmpty()) {
+            // Agregar los artículos filtrados al modelo
+            models.put("articles", resposta);
             return "/WEB-INF/views/Filtrats.jsp";
         } else {
+            // Manejar el caso de no encontrar artículos
             return "/WEB-INF/Error404.jsp";
         }
     }

@@ -10,6 +10,8 @@ import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.client.WebTarget;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import static java.lang.System.console;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -31,34 +33,49 @@ public class ArticleServiceImpl implements ArticleService{
     @Override
     public List<ArticleResposta> getByTopicAndUser(String authorId, String... topicsId) {
         try {
-            System.out.println("Realizando llamada REST al servidor en: " + webTarget.getUri());
+            // Imprimir el autor y los tópicos recibidos
+            System.out.println("Author ID recibido: " + authorId);
+            System.out.println("Topics recibidos: " + Arrays.toString(topicsId));
 
-            // Crear el webTarget con los parámetros
-            WebTarget targetWithParams = webTarget.queryParam("author", authorId);
+            WebTarget targetWithParams = webTarget;
 
-            // Si existen topics, añadirlos como parámetros adicionales
-            if (topicsId != null && topicsId.length > 0) {
-                targetWithParams = targetWithParams.queryParam("topics", String.join(",", topicsId));
+            // Agregar parámetros de consulta y log de URL
+            if (authorId != null && !authorId.isEmpty()) {
+                targetWithParams = targetWithParams.queryParam("author", authorId.trim());
+                System.out.println("Se añadió el parámetro author: " + authorId.trim());
             }
 
-            // Realizar la llamada GET con los parámetros
+            if (topicsId != null && topicsId.length > 0) {
+                for (String topic : topicsId) {
+                    if (topic != null && !topic.trim().isEmpty()) {
+                        targetWithParams = targetWithParams.queryParam("topic", topic.trim());
+                        System.out.println("Se añadió el parámetro topic: " + topic.trim());
+                    }
+                }
+            }
+
+            // Verificar la URL construida
+            System.out.println("URL construida: " + targetWithParams.getUri());
+
+            // Realizar la solicitud GET
             Response response = targetWithParams.request(MediaType.APPLICATION_JSON).get();
+            System.out.println("Estado de la respuesta: " + response.getStatus());
 
-            System.out.println("Código de estado de la respuesta: " + response.getStatus());
-
+            // Manejar la respuesta
             if (response.getStatus() == 200) {
-                List<ArticleResposta> articles = response.readEntity(new jakarta.ws.rs.core.GenericType<List<ArticleResposta>>() {});
-                System.out.println("Artículos recuperados: " + articles);
-                return articles;
+                System.out.println("Respuesta obtenida correctamente.");
+                return response.readEntity(new jakarta.ws.rs.core.GenericType<List<ArticleResposta>>() {});
             } else {
-                System.err.println("Error al realizar la llamada: Código de respuesta = " + response.getStatus());
+                System.err.println("Error al obtener los artículos: " + response.getStatus());
             }
         } catch (Exception e) {
+            System.err.println("Se produjo una excepción:");
             e.printStackTrace();
         }
 
         return null;
     }
+
 
 
 

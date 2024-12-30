@@ -193,7 +193,7 @@ public class ArticleService extends AbstractFacade<Article>{
     @Path("/all")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response getAllArticles(){
-        String query = "SELECT a FROM Article a";
+        String query = "SELECT a FROM Article a ORDER BY a.num_views DESC";
         TypedQuery<Article> consulta = em.createQuery(query, Article.class);
         List<Article> articleList = consulta.getResultList();
         if (articleList.isEmpty()) {

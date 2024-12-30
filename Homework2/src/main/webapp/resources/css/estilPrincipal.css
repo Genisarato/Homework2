@@ -12,6 +12,7 @@
     z-index: 1000;
     width: 100%;
     box-sizing: border-box;
+    flex-wrap: wrap; /* Permite que los elementos se acomoden en pantallas más pequeñas */
 }
 
 .header-content {
@@ -23,6 +24,7 @@
     margin: 0 auto;
 }
 
+/* Barra de búsqueda */
 .header-search {
     flex: 1;
     display: flex;
@@ -70,12 +72,14 @@
     background: #555;
 }
 
+/* Botones a la derecha */
 .header-buttons {
     display: flex;
     gap: 10px;
     position: absolute;
     top: 10px;
     right: 20px;
+    align-items: center;
 }
 
 .header-buttons button {
@@ -92,6 +96,46 @@
 .header-buttons button:hover {
     background: #777;
 }
+
+/* Responsividad: En pantallas pequeñas */
+@media (max-width: 768px) {
+    .header-content {
+        flex-direction: column; /* Los elementos se apilan verticalmente */
+        align-items: center;
+    }
+
+    .header-search {
+        width: 100%; /* La barra de búsqueda ocupa todo el ancho */
+        margin-bottom: 10px; /* Espacio entre barra de búsqueda y botones en pantallas pequeñas */
+    }
+
+    .header-buttons {
+        width: 100%; /* Los botones se distribuyen en toda la pantalla */
+        justify-content: flex-end; /* Los botones se alinean al borde derecho */
+        position: relative;
+        top: auto;
+    }
+
+    .header-buttons button {
+        width: 100%; /* Los botones se expanden en pantallas pequeñas */
+        padding: 12px;
+        font-size: 14px;
+    }
+
+    .search-button {
+        width: 45px; /* Reducir el tamaño del botón de búsqueda */
+        height: 45px;
+    }
+}
+
+/* Responsividad en tabletas */
+@media (max-width: 1024px) {
+    .header-buttons {
+        flex-wrap: wrap;
+        justify-content: flex-end;
+    }
+}
+
 
 /* Contenedor principal */
 .container {

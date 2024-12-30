@@ -5,11 +5,44 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Homework2</title>
     <link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/estilPrincipal.css'/>">
+    <style>
+        .large-back-button-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .large-back-button {
+            background-color: #005599; /* Color de fondo */
+            color: white;
+            font-size: 20px;
+            padding: 15px 50px; /* Aumenta el tamaño para hacerlo más largo */
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            width: 100%; /* Hace el botón más largo ocupando el 100% del ancho disponible */
+            max-width: 400px; /* Limita el tamaño máximo */
+            display: inline-block;
+        }
+        .large-back-button:hover {
+            background-color: #004477; /* Cambio de color al pasar el cursor */
+        }
+    </style>
 </head>
 <body>
+    <!-- Cabecera con barra de búsqueda, login y crear artículo -->
     <header class="header">
         <div class="header-content">
+            <!-- Barra de búsqueda -->
+            <div class="header-search">
+                <form action="<c:url value='/search'/>" method="GET" class="search-form">
+                    <input type="text" name="query" placeholder="Buscar artículos..." class="search-bar">
+                    <button type="submit" class="search-button">🔍</button>
+                </form>
+            </div>
+
+            <!-- Botones a la derecha -->
             <div class="header-buttons">
+                <!-- Nuevo botón para filtrar -->
                 <form action="<c:url value='/Web/filtrar'/>" method="GET">
                     <button type="submit">Filtrar</button>
                 </form>
@@ -19,47 +52,48 @@
                 <form action="<c:url value='/Web/login'/>" method="GET">
                     <button type="submit">Login</button>
                 </form>
+                <form action="<c:url value='/Web/SignUp'/>" method="GET">
+                    <button type="submit">Registrar-se</button>
+                </form>
             </div>
         </div>
     </header>
 
+    <!-- Contenedor principal centrado -->
     <main class="container">
         <h1>Articles</h1>
         <div class="article-container">
-            <!-- Verificar si hay artículos -->
-            <c:if test="${not empty articles}">
-                <c:forEach var="article" items="${articles}">
-                    <!-- Asignar valores por defecto a las variables -->
-                    <c:set var="imagen" value="${article.imatge != null ? article.imatge : 'https://via.placeholder.com/150'}"/>
-                    <c:set var="iconoCandado" value="${article.privat == true ? '🔒' : '🔓'}"/>
-
-                    <!-- Eliminar el manejo de la fecha -->
-                    <c:set var="fechaPubliValida" value="${article.data_publi != null ? article.data_publi.replace('[UTC]', '') : null}"/>
-
-                    <div class="article" data-id="${article.id}">
-                        <div class="article-details">
-                            <img src="${imagen}" alt="${article.titol != null ? article.titol : 'Títol no disponible'}" class="article-img">
-                            <p class="article-title">${article.titol != null ? article.titol : 'Títol no disponible'}</p>
-                            <p><strong>${iconoCandado}</strong></p>
-                            <p><strong>Autor:</strong> ${article.nom_Aut != null ? article.nom_Aut : 'Autor desconegut'}</p>
-                            <p><strong>Publicació:</strong> Data no disponible</p> <!-- Texto fijo por ahora -->
-                            <div class="article-views">
-                                <span class="eye-icon">👁️</span> ${article.n_views}
-                            </div>
-                        </div>
-                    </div>
-                </c:forEach>
-            </c:if>
-            <c:if test="${empty articles}">
-                <p>No se encontraron artículos.</p>
-            </c:if>
+            <!-- Aquí se mostrarán los artículos -->
         </div>
     </main>
 
-    <div class="back-button-container">
+    <!-- Botón grande para volver -->
+    <div class="large-back-button-container">
         <form action="<c:url value='/Web/Principal'/>" method="GET">
-            <button type="submit" class="back-button">Volver a la página principal</button>
+            <button type="submit" class="large-back-button">Volver a la página principal</button>
         </form>
     </div>
+
+    <script>
+        var articles = [
+            <c:forEach var="article" items="${articles}" varStatus="status">
+                {
+                    id: "<c:out value='${article.id}'/>",
+                    titol: "<c:out value='${article.titol}'/>",
+                    nom_Aut: "<c:out value='${article.nom_Aut}'/>",
+                    imatge: "<c:out value='${article.imatge}'/>",
+                    privat: <c:out value="${article.privat}"/>,
+                    data_publi: "<c:out value='${article.data_publi}'/>",
+                    n_views: <c:out value="${article.n_views}"/>
+                }<c:if test="${!status.last}">,</c:if>
+            </c:forEach>
+        ];
+
+        console.log("Articles:", articles);
+    </script>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="<c:url value='/resources/js/LListaFiltrats.js'/>"></script>
 </body>
 </html>

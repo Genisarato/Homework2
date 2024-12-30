@@ -4,6 +4,10 @@ public class CredentialsAux {
     
     private String username;
     private String password;
+    
+    public CredentialsAux(){
+        
+    }
 
     public CredentialsAux (String username, String password) {
         this.username = username;

@@ -16,26 +16,33 @@
 <body>
     <!-- Cabecera con barra de búsqueda, login y crear artículo -->
     <header class="header">
-        <div class="header-content">
-            <!-- Barra de búsqueda -->
-            <div class="header-search">
-                <form action="<c:url value='/search'/>" method="GET" class="search-form">
-                    <input type="text" name="query" placeholder="Buscar artículos..." class="search-bar">
-                    <button type="submit" class="search-button">🔍</button>
-                </form>
-            </div>
+            <div class="header-content">
+                <!-- Barra de búsqueda -->
+                <div class="header-search">
+                    <form action="<c:url value='/search'/>" method="GET" class="search-form">
+                        <input type="text" name="query" placeholder="Buscar artículos..." class="search-bar">
+                        <button type="submit" class="search-button">🔍</button>
+                    </form>
+                </div>
 
-            <!-- Botones a la derecha -->
-            <div class="header-buttons">
-                <form action="<c:url value='/Web/createArticle'/>" method="GET">
-                    <button type="submit">Crear Artículo</button>
-                </form>
-                <form action="<c:url value='/Web/login'/>" method="GET">
-                    <button type="submit">Login</button>
-                </form>
+                <!-- Botones a la derecha -->
+                <div class="header-buttons">
+                    <!-- Nuevo botón para filtrar -->
+                    <form action="<c:url value='/Web/filtrar'/>" method="GET">
+                        <button type="submit">Filtrar</button>
+                    </form>
+                    <form action="<c:url value='/Web/createArticle'/>" method="GET">
+                        <button type="submit">Crear Articles</button>
+                    </form>
+                    <form action="<c:url value='/Web/login'/>" method="GET">
+                        <button type="submit">Login</button>
+                    </form>
+                    <form action="<c:url value='/Web/SignUp'/>" method="GET">
+                        <button type="submit">Registrar-se</button>
+                    </form>
+                </div>
             </div>
-        </div>
-    </header>
+        </header>
 
     <!-- Contenedor principal centrado -->
     <main class="container">
