@@ -320,8 +320,19 @@ public class ArticleService extends AbstractFacade<Article>{
     //FET i funcional
     @POST
     @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    @Secured
     public Response crearArticle(Article e){
         //comprovar que asta registrat
+        List<String> headersAuth = headers.getRequestHeader(HttpHeaders.AUTHORIZATION);
+        String auth = headersAuth.get(0).replace("Basic ", "");
+        String decode = new String(Base64.getDecoder().decode(auth), StandardCharsets.UTF_8);
+        StringTokenizer tokenizer = new StringTokenizer(decode, ":");
+        String username = tokenizer.nextToken();
+        
+        if(!username.equals(e.getAutor().getNom())){
+            return Response.status(Response.Status.UNAUTHORIZED).entity("Authorization header missing").build();
+        }
+        
         Usuari autor = e.getAutor();
         //Comprovem que usuari existeix a la BD, sino retornem error per simplificar el disseny, podriem crear-lo.
          //if(autor == null)return Response.status(Response.Status.NOT_FOUND).entity("Usuari no trobat").build();

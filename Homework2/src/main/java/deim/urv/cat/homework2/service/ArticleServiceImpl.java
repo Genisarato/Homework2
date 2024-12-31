@@ -8,10 +8,12 @@ import deim.urv.cat.homework2.model.Article;
 import deim.urv.cat.homework2.model.ArticleResposta;
 import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.client.WebTarget;
+import jakarta.ws.rs.core.HttpHeaders;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import static java.lang.System.console;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.List;
 
 /**
@@ -103,36 +105,58 @@ public class ArticleServiceImpl implements ArticleService{
         return null;
     }
 
-    @Override
-    public ArticleResposta getArticleById(int id) {
+   @Override
+    public ArticleResposta getArticleById(int id, String username, String encodedPassword) {
         try {
-            System.out.println("Realizando llamada REST al servidor en: " + webTarget.getUri());
-            System.out.println("Realizando llamada REST al servidor en: " + webTarget.getUri());
-            // Añadimos el path("/all") para acceder al endpoint correcto
-            Response response = webTarget.path("/"+ id).request(MediaType.APPLICATION_JSON).get();
+            Response response;
 
-            System.out.println("Código de estado de la respuesta: " + response.getStatus());
+            if (username != null && encodedPassword != null) {
+                // Si el usuario está autenticado, formamos las credenciales en Base64
+                String credentials = username + ":" + encodedPassword;
+                String encodedCredentials = Base64.getEncoder().encodeToString(credentials.getBytes());
 
-            if (response.getStatus() == 200) {
-                ArticleResposta article = response.readEntity(ArticleResposta.class);
-                return article;
+                // Enviar la solicitud con el encabezado Authorization (usuario y contraseña codificados)
+                response = webTarget.path("/" + id)
+                    .request(MediaType.APPLICATION_JSON)
+                    .header(HttpHeaders.AUTHORIZATION, "Basic " + encodedCredentials)
+                    .get();
             } else {
-                System.err.println("Error al realizar la llamada: Código de respuesta = " + response.getStatus());
+                // Si no hay credenciales, obtener el artículo como público
+                response = webTarget.path("/" + id)
+                    .request(MediaType.APPLICATION_JSON)
+                    .get();
+            }
+
+            // Comprobar la respuesta
+            if (response.getStatus() == 200) {
+                return response.readEntity(ArticleResposta.class);
+            } else {
+                System.err.println("Error al obtener el artículo: " + response.getStatus());
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        return null;
+        return null; // Si no se pudo obtener el artículo
     }
 
-    @Override
-    public int crearArticle(Article nou) {
-                try {
-            System.out.println("Realizando llamada REST al servidor en: " + webTarget.getUri());
-            Response response = webTarget.request(MediaType.APPLICATION_JSON).post(Entity.entity(nou, MediaType.APPLICATION_JSON));
-            System.out.println("Código de estado de la respuesta: " + response.getStatus());
 
+
+
+
+    @Override
+    public int crearArticle(Article nou, String username, String encodedPassword) {
+        try {
+            Response response;
+            if (username != null && encodedPassword != null) {
+                String credentials = username + ":" + encodedPassword;
+                String encodedCredentials = Base64.getEncoder().encodeToString(credentials.getBytes());
+                response = webTarget.request(MediaType.APPLICATION_JSON).header(HttpHeaders.AUTHORIZATION, "Basic " + encodedCredentials).post(Entity.entity(nou, MediaType.APPLICATION_JSON));
+            
+            
+            }
+            else{
+                response = webTarget.request(MediaType.APPLICATION_JSON).post(Entity.entity(nou, MediaType.APPLICATION_JSON));
+            }
             if (response.getStatus() == 201) { 
                 int idArticle = response.readEntity(Integer.class);
                 System.out.println("Artículo creado con ID: " + idArticle);

@@ -60,7 +60,8 @@ public class CreateArticleController {
                               @FormParam("autor") String autor,
                               @FormParam("topics") String topics,
                               @FormParam("descripcio") String descripcio,
-                              @FormParam("privat") String privat) {
+                              @FormParam("privat") String privat,
+                              @Context HttpServletRequest request) {
 
         // Crear el objeto 'Usuari' a partir del nombre del autor
         Usuari nou = new Usuari();
@@ -74,7 +75,7 @@ public class CreateArticleController {
         }
 
         // Convertir la cadena "Sí" o "No" a un valor booleano
-        boolean esPrivado = "Sí".equalsIgnoreCase(privat);  // Si es "Sí", es true, sino es false
+        boolean esPrivado = "true".equalsIgnoreCase(privat);  // Si es "Sí", es true, sino es false
 
         // Crear el objeto 'Article' con los datos recibidos
         Article nuevoArticulo = new Article();
@@ -84,9 +85,18 @@ public class CreateArticleController {
         nuevoArticulo.setTopics(llista); // Añadir los tópicos a la lista
         nuevoArticulo.setDescripcio(descripcio);
         nuevoArticulo.setPrivat(esPrivado);
-
+        String username = (String) request.getSession().getAttribute("username");
+        String password = (String) request.getSession().getAttribute("password");
+        int articleId;
+        if (username != null && password != null) {
+            // Si están disponibles, pasarlas al servicio
+            articleId = articleService.crearArticle(nuevoArticulo, username, password);
+        } else {
+            // Si no hay credenciales, simplemente obtener el artículo sin autenticación
+           articleId = articleService.crearArticle(nuevoArticulo, null, null);
+        }
         // Llamar al servicio para crear el artículo
-        int articleId = articleService.crearArticle(nuevoArticulo);
+        //int articleId = articleService.crearArticle(nuevoArticulo);
 
         // Redirigir a la página principal después de la creación del artículo
         if (articleId > 0) {

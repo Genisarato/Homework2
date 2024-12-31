@@ -9,10 +9,13 @@ import deim.urv.cat.homework2.service.ArticleServiceImpl;
 import jakarta.inject.Inject;
 import jakarta.mvc.Controller;
 import jakarta.mvc.Models;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.Response;
+import java.util.Base64;
 
 /**
  *
@@ -33,15 +36,26 @@ public class ArticleIdController {
     
     @GET
     @Path("/{id}")
-    public String getArticleById(@PathParam("id") int id){
+    public String getArticleById(@PathParam("id") int id, @Context HttpServletRequest request) {
         try {
-            article = articleService.getArticleById(id);
+            // Obtener las credenciales de la sesión
+            String username = (String) request.getSession().getAttribute("username");
+            String password = (String) request.getSession().getAttribute("password");
+
+            // Si las credenciales son null, no se pasa nada, el artículo es público
+            if (username != null && password != null) {
+                // Si están disponibles, pasarlas al servicio
+                article = articleService.getArticleById(id, username, password);
+            } else {
+                // Si no hay credenciales, simplemente obtener el artículo sin autenticación
+                article = articleService.getArticleById(id, null, null);
+            }
+
             models.put("article", article);
-            return "/WEB-INF/views/article-details.jsp"; 
+            return "/WEB-INF/views/article-details.jsp";
         } catch (Exception e) {
-            // En caso de error, añadir un mensaje genérico al modelo
-            models.put("error", "Hi ha hagut un error al carregar l'article.");
-            return "/WEB-INF/Error404.jsp"; // Redirige a una vista de error
+            models.put("error", "Ha ocurrido un error al cargar el artículo.");
+            return "/WEB-INF/Error404.jsp"; // Redirigir a error si ocurre algún problema
         }
     }
 }

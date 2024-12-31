@@ -16,6 +16,6 @@ import jakarta.ws.rs.core.Response;
 public interface ArticleService {
     public List<ArticleResposta> getByTopicAndUser(String authorId, String... topicsId);
     public List<ArticleResposta> getAllArticle();
-    public ArticleResposta getArticleById(int id);
-    public int crearArticle(Article nou);
+    public ArticleResposta getArticleById(int id, String username, String password);
+    public int crearArticle(Article nou, String username, String password);
 }
