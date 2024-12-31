@@ -12,10 +12,13 @@ import deim.urv.cat.homework2.service.ArticleServiceImpl;
 import jakarta.inject.Inject;
 import jakarta.mvc.Controller;
 import jakarta.mvc.Models;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import jakarta.ws.rs.FormParam;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.core.Context;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -36,9 +39,21 @@ public class filterController {
     @Inject
     private Models models;
     
+    @Context
+    private HttpServletRequest request;
     
     @GET
     public String showForm() {
+        // Comprovar si l'usuari ha iniciat sessió
+        HttpSession session = request.getSession(false); // No crear una nova sessió si no existeix
+        if (session != null && session.getAttribute("username") != null) {
+            // Usuari loggejat
+            models.put("isLoggedIn", true);
+            models.put("username", session.getAttribute("username"));
+        } else {
+            // Usuari no loggejat
+            models.put("isLoggedIn", false);
+        }
        return "/WEB-INF/views/filterForm.jsp";
     }
     

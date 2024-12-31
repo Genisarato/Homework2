@@ -3,13 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/USUARIO/Desktop/uni/3er_any/SO/Homework2/Homework1/src/java/model/entities/ArticleResposta.java</file>
-            <file>file:/C:/Users/USUARIO/Desktop/uni/3er_any/SO/Homework2/Homework1/src/java/service/AbstractFacade.java</file>
-            <file>file:/C:/Users/USUARIO/Desktop/uni/3er_any/SO/Homework2/Homework1/src/java/service/UsuariService.java</file>
-            <file>file:/C:/Users/USUARIO/Desktop/uni/3er_any/SO/Homework2/Homework1/src/java/service/ArticleService.java</file>
-            <file>file:/C:/Users/USUARIO/Desktop/uni/3er_any/SO/Homework2/Homework1/src/java/model/entities/Topic.java</file>
-            <file>file:/C:/Users/USUARIO/Desktop/uni/3er_any/SO/Homework2/Homework1/src/java/model/entities/CredentialsAux.java</file>
-            <file>file:/C:/Users/USUARIO/Desktop/uni/3er_any/SO/Homework2/Homework1/src/java/model/entities/Usuari.java</file>
+            <file>file:/C:/Users/janto/Documents/GitHub/Homework2/Homework1/src/java/authn/RESTRequestFilter.java</file>
+            <file>file:/C:/Users/janto/Documents/GitHub/Homework2/Homework1/src/java/authn/Credentials.java</file>
+            <file>file:/C:/Users/janto/Documents/GitHub/Homework2/Homework1/src/java/authn/Secured.java</file>
         </group>
     </open-files>
 </project-private>

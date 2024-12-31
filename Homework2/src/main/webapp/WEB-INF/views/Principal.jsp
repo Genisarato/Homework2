@@ -5,11 +5,49 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Homework2</title>
     <link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/estilPrincipal.css'/>">
+    <style>
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .welcome-container {
+            display: flex;
+            align-items: center;
+            color: white;
+            font-size: 20px; 
+        }
+
+        .header-buttons {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header-buttons button {
+            padding: 8px 16px;
+            font-size: 14px;
+        }
+
+        .header-search {
+            margin-left: auto; /* Fa que la barra de cerca quedi centrada o a la dreta */
+        }
+    </style>
 </head>
 <body>
-    <!-- Cabecera con barra de búsqueda, login y crear artículo -->
+    <!-- Cabecera amb text de benvinguda, barra de búsqueda i botons -->
     <header class="header">
         <div class="header-content">
+            <!-- Text de benvinguda a l'esquerra -->
+            <c:choose>
+                <c:when test="${isLoggedIn}">
+                    <div class="welcome-container">
+                        <p>Benvingut, <strong>${username}</strong>!</p>
+                    </div>
+                </c:when>
+            </c:choose>
+
             <!-- Barra de búsqueda -->
             <div class="header-search">
                 <form action="<c:url value='/search'/>" method="GET" class="search-form">
@@ -18,30 +56,41 @@
                 </form>
             </div>
 
-            <!-- Botones a la derecha -->
+            <!-- Botons a la dreta -->
             <div class="header-buttons">
-                <!-- Nuevo botón para filtrar -->
+                <!-- Botó Filtrar -->
                 <form action="<c:url value='/Web/filtrar'/>" method="GET">
                     <button type="submit">Filtrar</button>
                 </form>
                 <form action="<c:url value='/Web/createArticle'/>" method="GET">
                     <button type="submit">Crear Articles</button>
                 </form>
-                <form action="<c:url value='/Web/login'/>" method="GET">
-                    <button type="submit">Login</button>
-                </form>
-                <form action="<c:url value='/Web/SignUp'/>" method="GET">
-                    <button type="submit">Registrar-se</button>
-                </form>
+                <c:choose>
+                    <c:when test="${isLoggedIn}">
+                        <!-- Botó de tancar sessió -->
+                        <form action="<c:url value='/Web/Logout'/>" method="GET">
+                            <button type="submit">Tanca Sessió</button>
+                        </form>
+                    </c:when>
+                    <c:otherwise>
+                        <!-- Botons de login i registre -->
+                        <form action="<c:url value='/Web/login'/>" method="GET">
+                            <button type="submit">Iniciar Sessió</button>
+                        </form>
+                        <form action="<c:url value='/Web/SignUp'/>" method="GET">
+                            <button type="submit">Registrar-se</button>
+                        </form>
+                    </c:otherwise>
+                </c:choose>
             </div>
         </div>
     </header>
 
-    <!-- Contenedor principal centrado -->
+    <!-- Contenedor principal centrat -->
     <main class="container">
         <h1>Articles</h1>
         <div class="article-container">
-            <!-- Aquí se mostrarán los artículos -->
+            <!-- Aquí es mostraran els articles -->
         </div>
     </main>
 

@@ -5,6 +5,7 @@ import jakarta.inject.Named;
 import jakarta.mvc.binding.MvcBinding;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import jakarta.ws.rs.FormParam;
 import java.io.Serializable;
@@ -16,17 +17,31 @@ public class UserForm implements Serializable {
         
     // JSR 303 validation
     @NotBlank
-    @FormParam("firstName")
+    @FormParam("nom")
     @MvcBinding
-    @Size(min=2, max=30, message = "First name must be between 2 and 30 characters")
-    private String firstName;
+    @Size(min=2, max=30, message = "El nom ha de tenir entre 2 i 30 caràcters")
+    private String nom;
     
     // JSR 303 validation
     @NotBlank
-    @FormParam("lastName")
+    @FormParam("username")
     @MvcBinding
     @Size(min=2, max=30, message = "Last name must be between 2 and 30 characters")
-    private String lastName;
+    private String username;
+    
+    // JSR 303 validation
+    @NotBlank
+    @FormParam("telf")
+    @MvcBinding
+    @Size(min=9, max=9, message = "Ha de tenir 9 dígits")
+    private String telf;
+    
+    // JSR 303 validation
+    @NotBlank
+    @FormParam("dni")
+    @MvcBinding
+    @Pattern(regexp = "\\d{8}[A-Za-z]", message = "El DNI ha de tenir 8 números seguits d'una lletra")
+    private String dni;
 
     @NotBlank
     @FormParam("email")
@@ -34,30 +49,61 @@ public class UserForm implements Serializable {
     @MvcBinding
     private String email;
     
-    public String getFirstName() {
-        return fixNull(this.firstName);
+     // JSR 303 validation for password
+    @NotBlank(message = "La contrasenya no pot estar buida")
+    @FormParam("password")
+    @MvcBinding
+    @Size(min=8, max=20, message = "La contrasenya ha de tenir entre 8 i 20 caràcters")
+    private String password;
+
+    public String getPassword() {
+        return password;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    public String getLastName() {
-        return fixNull(this.lastName);
+    public String getNom() {
+        return nom;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getTelf() {
+        return telf;
+    }
+
+    public void setTelf(String telf) {
+        this.telf = telf;
+    }
+
+    public String getDni() {
+        return dni;
+    }
+
+    public void setDni(String dni) {
+        this.dni = dni;
     }
 
     public String getEmail() {
-        return fixNull(this.email);
+        return fixNull(email);
     }
 
     public void setEmail(String email) {
         this.email = email;
     }
-
+    
     private String fixNull(String in) {
         return (in == null) ? "" : in;
     }

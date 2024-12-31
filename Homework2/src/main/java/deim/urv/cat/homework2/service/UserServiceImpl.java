@@ -1,6 +1,5 @@
 package deim.urv.cat.homework2.service;
 
-import deim.urv.cat.homework2.model.User;
 import deim.urv.cat.homework2.controller.UserForm;
 import deim.urv.cat.homework2.model.Usuari;
 import jakarta.ws.rs.client.WebTarget;
@@ -14,24 +13,24 @@ public class UserServiceImpl implements UserService {
 
     private final WebTarget webTarget;
     private final jakarta.ws.rs.client.Client client;
-    private static final String BASE_URI = "http://localhost:8080/UserService/rest/api";
+    private static final String BASE_URI = "http://localhost:8080/Homework1/rest/api/v1/customer";
 
     public UserServiceImpl() {
         client = jakarta.ws.rs.client.ClientBuilder.newClient();
-        webTarget = client.target(BASE_URI).path("user");
+        webTarget = client.target(BASE_URI);
     }
 
     /**
      * Buscar usuario por email
      * @param email
      */
-    public User findUserByEmail(String email) {
+    public Usuari findUserByEmail(String email) {
         try {
             Response response = webTarget.path(email)
                     .request(MediaType.APPLICATION_JSON)
                     .get();
             if (response.getStatus() == 200) {
-                return response.readEntity(User.class);
+                return response.readEntity(Usuari.class);
             } else {
                 System.err.println("Error al buscar el usuario: " + response.getStatus());
             }

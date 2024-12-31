@@ -26,10 +26,16 @@
                         </p>
 			<table class="table table-striped table-bordered">
 				<tr>
-					<td><b>First Name </b>: ${user.firstName}</td>
+					<td><b>Nom </b>: ${user.nom}</td>
 				</tr>
 				<tr>
-					<td><b>Last Name </b>: ${user.lastName}</td>
+					<td><b>Username </b>: ${user.username}</td>
+				</tr>
+                                <tr>
+					<td><b>DNI </b>: ${user.dni}</td>
+				</tr>
+                                <tr>
+					<td><b>Telèfon </b>: ${user.telf}</td>
 				</tr>
 				<tr>
 					<td><b>Email </b>: ${user.email}</td>

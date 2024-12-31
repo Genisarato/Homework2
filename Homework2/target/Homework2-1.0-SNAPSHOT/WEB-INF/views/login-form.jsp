@@ -1,9 +1,3 @@
-<%-- 
-    Document   : login-form
-    Created on : 29 dic 2024, 12:49:03
-    Author     : janto
---%>
-
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" isELIgnored="false" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
@@ -25,24 +19,34 @@
     <h1>Iniciar Sessió</h1>
     
     <!-- Mostra el missatge d'error si existeix -->
-        <c:if test="${not empty error}">
-            <div class="error-message">
-                ${error}
-            </div>
-        </c:if>
+    <c:if test="${not empty error}">
+        <div class="error-message">
+            ${error}
+        </div>
+    </c:if>
     
     <!-- Formulario centrado -->
     <form action="<c:url value='login'/>" method="POST" class="form-container">
         <!-- Grup del camp d'usuari -->
         <div class="form-group">
             <label for="username">Usuari</label>
-            <input type="text" id="username" name="username" class="form-input" placeholder="Nom d'usuari" required>
+            <input type="text" id="username" name="username" class="form-input" 
+                   placeholder="Nom d'usuari" value="${username != null ? username : ''}" required>
         </div>
 
         <!-- Grup del camp de contrasenya -->
         <div class="form-group">
             <label for="password">Contrasenya</label>
-            <input type="password" id="password" name="password" class="form-input" placeholder="Contrasenya" required>
+            <input type="password" id="password" name="password" class="form-input" 
+                   placeholder="Contrasenya" required>
+        </div>
+        
+        <!-- Opció Recuérdame -->
+        <div class="form-group">
+            <label>
+                <input type="checkbox" id="rememberMe" name="rememberMe" 
+                       ${username != null ? 'checked' : ''}> Recorda'm
+            </label>
         </div>
 
         <!-- Contenedor para los botones -->
@@ -61,7 +65,6 @@
         </div>
     </form>
 </main>
-
 
     <!-- Estilos personalizados -->
     <style>
@@ -101,7 +104,7 @@
         .button-container {
             display: flex;
             justify-content: space-between;
-            align-items: center; /* Alineación vertical */
+            align-items: center;
             width: 100%;
             margin-top: 20px;
             gap: 20px;
@@ -111,10 +114,8 @@
         .create-button-container {
             display: flex;
             justify-content: center;
-            align-items: center; /* Centra verticalmente el botón */
+            align-items: center;
             width: 48%;
-            margin: 0; /* Asegura que no haya margen extra */
-            padding: 0;
         }
 
         /* Botones */
@@ -123,13 +124,11 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0;          /* Sin margen extra */
-            padding: 0 20px;    /* Ajusta si quieres más/menos espacio horizontal */
-            width: 100%;        /* Que llene el contenedor */
+            padding: 0 20px;
+            width: 100%;
             max-width: 200px;
-            height: 50px;       /* Misma altura */
-            line-height: 1;     /* Asegura que no haya un salto de línea adicional */
-            box-sizing: border-box;
+            height: 50px;
+            line-height: 1;
             background-color: #f1f1f1;
             color: #333;
             border: none;
@@ -143,8 +142,6 @@
         .create-button-container button:hover {
             background-color: #ddd;
         }
-
     </style>
 </body>
 </html>
-
