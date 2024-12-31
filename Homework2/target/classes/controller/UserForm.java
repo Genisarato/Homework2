@@ -48,6 +48,21 @@ public class UserForm implements Serializable {
     @Email(message = "Email should be valid")
     @MvcBinding
     private String email;
+    
+     // JSR 303 validation for password
+    @NotBlank(message = "La contrasenya no pot estar buida")
+    @FormParam("password")
+    @MvcBinding
+    @Size(min=8, max=20, message = "La contrasenya ha de tenir entre 8 i 20 caràcters")
+    private String password;
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     public String getNom() {
         return nom;
@@ -89,8 +104,6 @@ public class UserForm implements Serializable {
         this.email = email;
     }
     
-    
-
     private String fixNull(String in) {
         return (in == null) ? "" : in;
     }

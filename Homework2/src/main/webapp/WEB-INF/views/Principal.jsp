@@ -16,7 +16,20 @@
             display: flex;
             align-items: center;
             color: white;
-            font-size: 20px; 
+            font-size: 20px;
+        }
+
+        .welcome-button {
+            background-color: transparent;
+            border: none;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+
+        .welcome-button:hover {
+            color: #f0f0f0;
         }
 
         .header-buttons {
@@ -43,7 +56,11 @@
             <c:choose>
                 <c:when test="${isLoggedIn}">
                     <div class="welcome-container">
-                        <p>Benvingut, <strong>${username}</strong>!</p>
+                        <form action="<c:url value='/userInfo'/>" method="GET" style="margin: 0;">
+                            <button type="submit" class="welcome-button">
+                                Benvingut, <strong>${username}</strong>
+                            </button>
+                        </form>
                     </div>
                 </c:when>
             </c:choose>

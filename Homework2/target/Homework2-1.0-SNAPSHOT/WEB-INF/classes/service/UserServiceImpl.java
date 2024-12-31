@@ -23,10 +23,27 @@ public class UserServiceImpl implements UserService {
     /**
      * Buscar usuario por email
      * @param email
+     * @return instància d'usuari
      */
     public Usuari findUserByEmail(String email) {
         try {
-            Response response = webTarget.path(email)
+            Response response = webTarget.path("/" + email)
+                    .request(MediaType.APPLICATION_JSON)
+                    .get();
+            if (response.getStatus() == 200) {
+                return response.readEntity(Usuari.class);
+            } else {
+                System.err.println("Error al buscar el usuario: " + response.getStatus());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    
+    public Usuari findUserByUsername(String username) {
+        try {
+            Response response = webTarget.path("/" + username)
                     .request(MediaType.APPLICATION_JSON)
                     .get();
             if (response.getStatus() == 200) {
@@ -141,5 +158,9 @@ public class UserServiceImpl implements UserService {
             e.printStackTrace();
             return false;
         }
+    }
+
+    public Usuari getCustomerByUsername(String username) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

@@ -160,5 +160,37 @@ public class UsuariService extends AbstractFacade<Usuari>{
             return Response.status(Response.Status.UNAUTHORIZED).build();
         }
     }
+    
+    @GET
+    @Path("/email")
+    @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    public Response byEmail(String email){
+        try{
+            String existQuery = "SELECT u FROM Usuaris u WHERE u.email = :correu";
+            Usuari resultat = em.createQuery(existQuery, Usuari.class)
+                                           .setParameter("correu", email)
+                                           .getSingleResult();
+            if (resultat == null) return Response.status(Response.Status.NOT_FOUND).build();
+            return Response.status(Response.Status.OK).entity(resultat).build();
+        }catch(Exception e){
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+    }
+    
+    @GET
+    @Path("/username")
+    @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    public Response byUsername(String username){
+        try{
+            String existQuery = "SELECT u FROM Usuaris u WHERE u.username = :username";
+            Usuari resultat = em.createQuery(existQuery, Usuari.class)
+                                           .setParameter("username", username)
+                                           .getSingleResult();
+            if (resultat == null) return Response.status(Response.Status.NOT_FOUND).build();
+            return Response.status(Response.Status.OK).entity(resultat).build();
+        }catch(Exception e){
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+    }
 }
 
