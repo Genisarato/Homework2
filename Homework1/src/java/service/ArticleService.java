@@ -87,7 +87,7 @@ public class ArticleService extends AbstractFacade<Article>{
         if (author != null && !author.trim().isEmpty()) {
             try {
                 // Asegurarse de usar los signos de porcentaje para la búsqueda parcial
-                TypedQuery<Usuari> queryUsr = em.createQuery("SELECT u FROM Usuari u WHERE u.nom LIKE :author", Usuari.class);
+                TypedQuery<Usuari> queryUsr = em.createQuery("SELECT u FROM Usuari u WHERE u.username LIKE :author", Usuari.class);
                 queryUsr.setParameter("author", "%" + author.trim() + "%"); // Búsqueda parcial, % antes y después
                 queryUsr.setMaxResults(1); // Limita a un resultado
                 autorBD = queryUsr.getSingleResult();
@@ -329,7 +329,7 @@ public class ArticleService extends AbstractFacade<Article>{
         StringTokenizer tokenizer = new StringTokenizer(decode, ":");
         String username = tokenizer.nextToken();
         
-        if(!username.equals(e.getAutor().getNom())){
+        if(!username.equals(e.getAutor().getUsername())){
             return Response.status(Response.Status.UNAUTHORIZED).entity("Authorization header missing").build();
         }
         
@@ -339,9 +339,9 @@ public class ArticleService extends AbstractFacade<Article>{
          Usuari autorBD;
         try {
             // Recuperamos el usuario por su ID desde la base de datos
-            String queryAutor = "SELECT u FROM Usuari u WHERE u.nom LIKE :nom";
+            String queryAutor = "SELECT u FROM Usuari u WHERE u.username LIKE :nom";
             autorBD = em.createQuery(queryAutor, Usuari.class)
-                        .setParameter("nom", autor.getNom())
+                        .setParameter("nom", autor.getUsername())
                         .getSingleResult();
         } catch (NoResultException ex) {
             return Response.status(Response.Status.NOT_FOUND).entity("Usuari no trobat").build();
@@ -366,7 +366,7 @@ public class ArticleService extends AbstractFacade<Article>{
         //e.setPrivat(false);
         em.persist(e);
         autorBD.addArticle(e);
-        autorBD.setLastArticleId(e.getId());
+        //autorBD.setLastArticleId(e.getId());
         
         //Una vegada fetes totes les comprovacions es fa la inserció del article a la llista
         articles.put( e.getId(), e);

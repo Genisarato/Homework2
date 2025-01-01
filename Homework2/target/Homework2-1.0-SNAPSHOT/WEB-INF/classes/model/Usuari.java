@@ -30,7 +30,7 @@ public class Usuari {
         this.email = email;
     }
 
-    private Link links;
+    //private Link links;
 
     private List<Article> articles = new LinkedList<>();
     
@@ -97,17 +97,17 @@ public class Usuari {
         return articles;
     }
     
-    public void setLastArticleId(int lastArticleId) {
+    /*public void setLastArticleId(int lastArticleId) {
         // Actualitzem l'últim article segons fem el post d'articles
         if(links == null){
             links = new Link();
         }
        links.setLastArticle(lastArticleId);
-    }
+    }*/
 
-    public Link getLinks() {
+    /*public Link getLinks() {
         return links;
-    }
+    }*/
     
     public void addArticle(Article e){
         articles.add(e);
@@ -118,8 +118,8 @@ public class Usuari {
     else lastArticle = null;
     }*/
 
-    public void setLinks(Link links) {
+    /*public void setLinks(Link links) {
         this.links = links;
-    }
+    }*/
     
 }

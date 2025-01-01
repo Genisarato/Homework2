@@ -194,7 +194,7 @@ public class UsuariService extends AbstractFacade<Usuari>{
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response byUsername(@QueryParam("username") String username){
         try{
-            String existQuery = "SELECT u FROM Usuari u WHERE u.username = :username";
+            String existQuery = "SELECT u FROM Usuari u WHERE u.username LIKE :username";
             Usuari resultat = em.createQuery(existQuery, Usuari.class)
                                            .setParameter("username", username)
                                            .getSingleResult();

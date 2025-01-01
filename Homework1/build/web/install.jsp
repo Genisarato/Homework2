@@ -40,7 +40,7 @@
                 "INSERT INTO " + schema + ".TOPIC VALUES (NEXT VALUE FOR TOPIC_GEN, 'Bases de dades')",
                 "INSERT INTO " + schema + ".TOPIC VALUES (NEXT VALUE FOR TOPIC_GEN, 'Introduction to Java')",
                 "INSERT INTO " + schema + ".CREDENTIALS VALUES (NEXT VALUE FOR CREDENTIALS_GEN, 'sob', 'sob')",
-                //"INSERT INTO " + schema + ".USUARI (ID, NOM, DNI) VALUES (NEXT VALUE FOR USUARI_GEN, 'sob', '12345678A')",
+                "INSERT INTO " + schema + ".USUARI (ID, NOM, DNI, TELEF, USERNAME) VALUES (NEXT VALUE FOR USUARI_GEN, 'sob', '12345678A', 123456789, 'sob')",
                 //"INSERT INTO " + schema + ".USUARI (ID, NOM, DNI) VALUES (NEXT VALUE FOR USUARI_GEN, 'Maria', '98765432B')",
                 "INSERT INTO " + schema + ".CREDENTIALS (ID, USERNAME, PASSWORD) VALUES (NEXT VALUE FOR CREDENTIALS_GEN, 'pere123', '12hola34')",
                 "INSERT INTO " + schema + ".CREDENTIALS (ID, USERNAME, PASSWORD) VALUES (NEXT VALUE FOR CREDENTIALS_GEN, 'laura<3', '1234')",
