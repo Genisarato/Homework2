@@ -6,6 +6,26 @@
     <title>Homework2</title>
     <link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/estilPrincipal.css'/>">
     <style>
+        .welcome-container {
+            display: flex;
+            align-items: center;
+            color: white;
+            font-size: 20px;
+        }
+
+        .welcome-button {
+            background-color: transparent;
+            border: none;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+
+        .welcome-button:hover {
+            color: #f0f0f0;
+        }
+        
         .large-back-button-container {
             text-align: center;
             margin-top: 20px;
@@ -32,6 +52,18 @@
     <!-- Cabecera con barra de búsqueda, login y crear artículo -->
     <header class="header">
         <div class="header-content">
+            <!-- Text de benvinguda a l'esquerra -->
+            <c:choose>
+                <c:when test="${isLoggedIn}">
+                    <div class="welcome-container">
+                        <form action="<c:url value='/Web/userInfo'/>" method="GET" style="margin: 0;">
+                            <button type="submit" class="welcome-button">
+                                Benvingut, <strong>${username}</strong>
+                            </button>
+                        </form>
+                    </div>
+                </c:when>
+            </c:choose>
             <!-- Barra de búsqueda -->
             <div class="header-search">
                 <form action="<c:url value='/search'/>" method="GET" class="search-form">
@@ -49,12 +81,23 @@
                 <form action="<c:url value='/Web/createArticle'/>" method="GET">
                     <button type="submit">Crear Articles</button>
                 </form>
-                <form action="<c:url value='/Web/login'/>" method="GET">
-                    <button type="submit">Login</button>
-                </form>
-                <form action="<c:url value='/Web/SignUp'/>" method="GET">
-                    <button type="submit">Registrar-se</button>
-                </form>
+                <c:choose>
+                    <c:when test="${isLoggedIn}">
+                        <!-- Botó de tancar sessió -->
+                        <form action="<c:url value='/Web/Logout'/>" method="GET">
+                            <button type="submit">Tanca Sessió</button>
+                        </form>
+                    </c:when>
+                    <c:otherwise>
+                        <!-- Botons de login i registre -->
+                        <form action="<c:url value='/Web/login'/>" method="GET">
+                            <button type="submit">Iniciar Sessió</button>
+                        </form>
+                        <form action="<c:url value='/Web/SignUp'/>" method="GET">
+                            <button type="submit">Registrar-se</button>
+                        </form>
+                    </c:otherwise>
+                </c:choose>
             </div>
         </div>
     </header>

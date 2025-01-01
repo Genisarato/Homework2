@@ -56,7 +56,7 @@
             <c:choose>
                 <c:when test="${isLoggedIn}">
                     <div class="welcome-container">
-                        <form action="<c:url value='/userInfo'/>" method="GET" style="margin: 0;">
+                        <form action="<c:url value='/Web/userInfo'/>" method="GET" style="margin: 0;">
                             <button type="submit" class="welcome-button">
                                 Benvingut, <strong>${username}</strong>
                             </button>

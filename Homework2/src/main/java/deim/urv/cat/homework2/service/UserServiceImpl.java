@@ -27,7 +27,8 @@ public class UserServiceImpl implements UserService {
      */
     public Usuari findUserByEmail(String email) {
         try {
-            Response response = webTarget.path("/" + email)
+            Response response = webTarget.path("/email")
+                    .queryParam("email", email)
                     .request(MediaType.APPLICATION_JSON)
                     .get();
             if (response.getStatus() == 200) {
@@ -43,7 +44,8 @@ public class UserServiceImpl implements UserService {
     
     public Usuari findUserByUsername(String username) {
         try {
-            Response response = webTarget.path("/" + username)
+            Response response = webTarget.path("/username")
+                    .queryParam("username", username)
                     .request(MediaType.APPLICATION_JSON)
                     .get();
             if (response.getStatus() == 200) {
@@ -158,9 +160,5 @@ public class UserServiceImpl implements UserService {
             e.printStackTrace();
             return false;
         }
-    }
-
-    public Usuari getCustomerByUsername(String username) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

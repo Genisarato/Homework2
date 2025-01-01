@@ -30,11 +30,9 @@ public class UserForm implements Serializable {
     private String username;
     
     // JSR 303 validation
-    @NotBlank
     @FormParam("telf")
     @MvcBinding
-    @Size(min=9, max=9, message = "Ha de tenir 9 dígits")
-    private String telf;
+    private int telf;
     
     // JSR 303 validation
     @NotBlank
@@ -80,11 +78,11 @@ public class UserForm implements Serializable {
         this.username = username;
     }
 
-    public String getTelf() {
+    public int getTelf() {
         return telf;
     }
 
-    public void setTelf(String telf) {
+    public void setTelf(int telf) {
         this.telf = telf;
     }
 

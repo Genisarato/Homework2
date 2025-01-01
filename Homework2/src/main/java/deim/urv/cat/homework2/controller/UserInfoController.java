@@ -19,7 +19,7 @@ import jakarta.ws.rs.core.Context;
  * @author janto
  */
 
-@Path("/userInfo")
+@Path("userInfo")
 @Controller
 public class UserInfoController {
     @Context
@@ -36,11 +36,12 @@ public class UserInfoController {
         if (username != null) {
             Usuari user = service.findUserByUsername(username);
             request.setAttribute("username", username);
+            request.setAttribute("nom", user.getNom());
             request.setAttribute("email", user.getEmail());
             request.setAttribute("dni", user.getDni());
             request.setAttribute("telf", user.getTelef());
 
-            return "/WEB-INF/views/profile.jsp";
+            return "/WEB-INF/views/info-user.jsp";
         } else {
             return "redirect:/login";
         }

@@ -23,9 +23,23 @@
                 <form action="<c:url value='/Web/createArticle'/>" method="GET">
                     <button type="submit">Crear Artículo</button>
                 </form>
-                <form action="<c:url value='/Web/login'/>" method="GET">
-                    <button type="submit">Login</button>
-                </form>
+                <c:choose>
+                    <c:when test="${isLoggedIn}">
+                        <!-- Botó de tancar sessió -->
+                        <form action="<c:url value='/Web/Logout'/>" method="GET">
+                            <button type="submit">Tanca Sessió</button>
+                        </form>
+                    </c:when>
+                    <c:otherwise>
+                        <!-- Botons de login i registre -->
+                        <form action="<c:url value='/Web/login'/>" method="GET">
+                            <button type="submit">Iniciar Sessió</button>
+                        </form>
+                        <form action="<c:url value='/Web/SignUp'/>" method="GET">
+                            <button type="submit">Registrar-se</button>
+                        </form>
+                    </c:otherwise>
+                </c:choose>
             </div>
         </div>
     </header>

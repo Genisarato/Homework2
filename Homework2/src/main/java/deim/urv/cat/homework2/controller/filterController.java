@@ -72,11 +72,21 @@ public class filterController {
 
         // Llamar al servicio para obtener los artículos filtrados
         List<ArticleResposta> resposta = articleService.getByTopicAndUser(author, llistaTopics);
-
+        
         // Validar la respuesta
         if (resposta != null && !resposta.isEmpty()) {
             // Agregar los artículos filtrados al modelo
             models.put("articles", resposta);
+            // Comprovar si l'usuari ha iniciat sessió
+            HttpSession session = request.getSession(false); // No crear una nova sessió si no existeix
+            if (session != null && session.getAttribute("username") != null) {
+                // Usuari loggejat
+                models.put("isLoggedIn", true);
+                models.put("username", session.getAttribute("username"));
+            } else {
+                // Usuari no loggejat
+                models.put("isLoggedIn", false);
+            }
             return "/WEB-INF/views/Filtrats.jsp";
         } else {
             // Manejar el caso de no encontrar artículos

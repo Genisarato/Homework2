@@ -20,7 +20,7 @@ import jakarta.ws.rs.core.Context;
  *
  * @author janto
  */
-@Path("userInfo/edit")
+@Path("edit")
 @Controller
 public class userInfoEditController {
     @Context
@@ -36,7 +36,7 @@ public class userInfoEditController {
 
         if (username != null) {
             // Obtenim dades de l'usuari des del servei REST
-            Usuari user = userService.getCustomerByUsername(username);
+            Usuari user = userService.findUserByUsername(username);
             request.setAttribute("user", user);
             return "/WEB-INF/views/edit-info-user.jsp";
         } else {
@@ -69,10 +69,10 @@ public class userInfoEditController {
             boolean success = userService.modifyCustomerById(id, updatedUser);
 
             if (success) {
-                return "redirect:/profile";
+                return "redirect:/userInfo";
             } else {
                 request.setAttribute("error", "Error al modificar les dades. Torna a intentar-ho.");
-                return "/WEB-INF/views/edit-profile.jsp";
+                return "/WEB-INF/views/info-user.jsp";
             }
         } else {
             return "redirect:/login";

@@ -15,18 +15,6 @@
       rel="stylesheet"
       integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
       crossorigin="anonymous"/>
-<script>
-    // Validació de contrasenyes
-    function validatePasswords(event) {
-        const password = document.getElementById('password').value;
-        const confirmPassword = document.getElementById('confirmPassword').value;
-
-        if (password !== confirmPassword) {
-            event.preventDefault();
-            alert('Les contrasenyes no coincideixen!');
-        }
-    }
-</script>
 </head>
 <body>
 	<div class="container">
@@ -83,36 +71,87 @@
                             <div class="form-group">
                                 <label for="password" class="col-md-3 control-label">Contrasenya</label>
                                 <div class="col-md-9">
-                                    <input type="password" id="password" name="password" class="form-control" />
+                                    <input type="password" id="password" name="password" class="form-control" value="${user.password}" />
                                 </div>
                             </div>
 
-                            <!-- Confirmació de contrasenya -->
-                            <div class="form-group">
-                                <label for="confirmPassword" class="col-md-3 control-label">Confirma la Contrasenya</label>
-                                <div class="col-md-9">
-                                    <input type="password" id="confirmPassword" class="form-control" />
-                                </div>
-                            </div>
-
-                            <!-- Submit Button -->
-                            <div class="form-group">
-                                <div class="col-md-offset-3 col-md-9">
-                                    <input type="submit" value="Submit" />
-                                </div>
+                            <!-- Botons Cancelar i Submit -->
+                            <div class="form-group button-group">
+                                <!-- Botó Cancelar -->
+                                <button type="button" onclick="window.location.href='<c:url value="/Web/Principal"/>'" class="back-button">
+                                    Cancelar
+                                </button>
+                                <!-- Botó Submit -->
+                                <button type="submit" class="submit-button">
+                                    Submit
+                                </button>
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
-	</div>
+        </div>
+
+    <!-- Estilos personalizados -->
     <style>
-        .form-group label {
-            font-weight: bold;
+        .form-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 500px;
+            margin: 0 auto;
         }
 
-        .form-control {
-            margin-bottom: 10px;
+        .form-group {
+            margin: 15px 0;
+            width: 100%;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        .form-input:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+
+        .button-group {
+            display: flex; /* Col·loca els botons un al costat de l'altre */
+            justify-content: center; /* Centra els botons dins del contenidor */
+            align-items: center; /* Centra verticalment dins del contenidor */
+            gap: 20px; /* Espai entre els botons */
+            margin-top: 20px; /* Espai superior per separar dels camps */
+        }
+
+        .back-button,
+        .submit-button {
+            padding: 10px 20px; /* Ajustar el padding per fer els botons més grans */
+            background-color: #f1f1f1;
+            color: #333;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            width: 150px; /* Amplada uniforme per als dos botons */
+            text-align: center;
+        }
+
+        .back-button:hover,
+        .submit-button:hover {
+            background-color: #ddd; /* Canvi de color al passar el ratolí */
         }
     </style>
 </body>

@@ -48,6 +48,10 @@
         .toggle-password:hover {
             color: #0056b3;
         }
+        
+        .profile-info {
+            margin-bottom: 15px;
+        }
 
         .button-container {
             display: flex;
@@ -73,7 +77,7 @@
 </head>
 <body>
     <div class="container">
-        <form action="<c:url value='/profile/edit'/>" method="POST" class="form-container">
+        <form action="<c:url value='/Web/edit'/>" method="POST" class="form-container">
             <h2>Editar Perfil</h2>
 
             <div class="form-group">
@@ -81,9 +85,9 @@
                 <input type="text" id="nom" name="nom" value="${user.nom}" />
             </div>
             
-            <div class="form-group">
-                <label for="nom">Nom:</label>
-                <input type="text" id="nom" name="nom" value="${user.username}" />
+            <div class="profile-info">
+                <label>Nom d'usuari:</label>
+                <span>${username}</span>
             </div>
 
             <div class="form-group">
@@ -98,12 +102,12 @@
 
             <div class="form-group">
                 <label for="telf">Telèfon:</label>
-                <input type="text" id="telf" name="telf" value="${user.telf}" />
+                <input type="text" id="telf" name="telf" value="${user.telef}" />
             </div>
 
             <div class="button-container">
                 <button type="submit" class="button">Guardar Canvis</button>
-                <a href="<c:url value='/profile'/>" class="button">Cancel·lar</a>
+                <a href="<c:url value='/Web/userInfo'/>" class="button">Cancel·lar</a>
             </div>
         </form>
     </div>

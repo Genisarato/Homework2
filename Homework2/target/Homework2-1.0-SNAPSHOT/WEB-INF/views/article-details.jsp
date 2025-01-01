@@ -11,6 +11,17 @@
     <!-- Cabecera fija -->
     <header class="header">
         <div class="header-content">
+            <c:choose>
+                <c:when test="${isLoggedIn}">
+                    <div class="welcome-container">
+                        <form action="<c:url value='/Web/userInfo'/>" method="GET" style="margin: 0;">
+                            <button type="submit" class="welcome-button">
+                                Benvingut, <strong>${username}</strong>
+                            </button>
+                        </form>
+                    </div>
+                </c:when>
+            </c:choose>
             <div class="header-search">
                 <form action="<c:url value='/search'/>" method="GET" class="search-form">
                     <input type="text" name="query" placeholder="Buscar artículos..." class="search-bar">
@@ -21,9 +32,23 @@
                 <form action="<c:url value='/Web/createArticle'/>" method="GET">
                     <button type="submit">Crear Articles</button>
                 </form>
-                <form action="<c:url value='/Web/login'/>" method="GET">
-                    <button type="submit">Login</button>
-                </form>
+                <c:choose>
+                    <c:when test="${isLoggedIn}">
+                        <!-- Botó de tancar sessió -->
+                        <form action="<c:url value='/Web/Logout'/>" method="GET">
+                            <button type="submit">Tanca Sessió</button>
+                        </form>
+                    </c:when>
+                    <c:otherwise>
+                        <!-- Botons de login i registre -->
+                        <form action="<c:url value='/Web/login'/>" method="GET">
+                            <button type="submit">Iniciar Sessió</button>
+                        </form>
+                        <form action="<c:url value='/Web/SignUp'/>" method="GET">
+                            <button type="submit">Registrar-se</button>
+                        </form>
+                    </c:otherwise>
+                </c:choose>
             </div>
         </div>
     </header>
@@ -77,6 +102,9 @@
             </c:when>
             <c:otherwise>
                 <p>No hi ha dades disponibles per a aquest article.</p>
+                <form action="<c:url value='/Web/login'/>" method="GET">
+                            <button type="submit" class="back-button">Iniciar Sessió</button>
+                </form>
             </c:otherwise>
         </c:choose>
     </div>

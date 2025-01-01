@@ -1,6 +1,7 @@
 package deim.urv.cat.homework2.controller;
 
 import deim.urv.cat.homework2.model.AlertMessage;
+import deim.urv.cat.homework2.model.CredentialsAux;
 import deim.urv.cat.homework2.model.SignUpAttempts;
 import deim.urv.cat.homework2.service.UserServiceImpl;
 import deim.urv.cat.homework2.model.Usuari;

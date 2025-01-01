@@ -33,6 +33,7 @@ import java.util.Map;
 import java.util.Set;
 import model.entities.Article;
 import model.entities.CredentialsAux;
+import model.entities.UserForm;
 import model.entities.Usuari;
 
 
@@ -87,14 +88,26 @@ public class UsuariService extends AbstractFacade<Usuari>{
     }
     
     @POST
+    @Transactional
     @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public Response addUser(Usuari u) {
+    public Response addUser(UserForm user) {
         try {
+            //Es divideix el contingut de UserForm per a crear dues instàncies noves, una d'usuari i una de credentials
+            Usuari u = new Usuari();
+            u.setDni(user.getDni());
+            u.setNom(user.getNom());
+            u.setEmail(user.getEmail());
+            u.setTelef(user.getTelf());
+            u.setUsername(user.getUsername());
+            Credentials c = new Credentials();
+            c.setPassword(user.getPassword());
+            c.setUsername(user.getUsername());
+            
             String dni = u.getDni();
             String correu = u.getEmail();
 
             // Consulta combinada per a verificar si el DNI o el correu electrònic ja existeixen
-            String existQuery = "SELECT u.nom FROM Usuaris u WHERE u.dni = :dni OR u.email = :correu";
+            String existQuery = "SELECT u.nom FROM Usuari u WHERE u.dni = :dni OR u.email = :correu";
             List<String> resultats = em.createQuery(existQuery, String.class)
                                        .setParameter("dni", dni)
                                        .setParameter("correu", correu)
@@ -107,8 +120,9 @@ public class UsuariService extends AbstractFacade<Usuari>{
                                .build();
             }
 
-            // Persistir l'usuari si no hi ha conflicte
+            // Persistir l'usuari i credencials si no hi ha conflicte
             em.persist(u);
+            em.persist(c);
             return Response.status(Response.Status.CREATED)
                            .entity(u.getId())
                            .build();
@@ -123,18 +137,16 @@ public class UsuariService extends AbstractFacade<Usuari>{
 
     @PUT
     @Path("/{id}")
-    @Secured
     @Transactional
     @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response modifyCustomerById(@PathParam ("id") long id, Usuari u2){
        Usuari u = em.find(Usuari.class, id);
        if (u == null) return Response.status(Response.Status.NOT_FOUND).build();
-       String queryText = "UPDATE Usuari SET nom = :nom, dni = :dni, telef = :telef, username = :username, email = :email WHERE id = :id";
+       String queryText = "UPDATE Usuari SET nom = :nom, dni = :dni, telef = :telef, email = :email WHERE id = :id";
        Query queryMod = em.createQuery(queryText);
        queryMod.setParameter("nom", u2.getNom());
        queryMod.setParameter("dni", u2.getDni());
        queryMod.setParameter("telef", u2.getTelef());
-       queryMod.setParameter("username", u2.getUsername());
        queryMod.setParameter("email", u2.getEmail());
        queryMod.setParameter("id", id);
        if (queryMod.executeUpdate() == 1) return Response.status(Response.Status.OK).build();
@@ -163,10 +175,10 @@ public class UsuariService extends AbstractFacade<Usuari>{
     
     @GET
     @Path("/email")
-    @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public Response byEmail(String email){
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    public Response byEmail(@QueryParam("email") String email){
         try{
-            String existQuery = "SELECT u FROM Usuaris u WHERE u.email = :correu";
+            String existQuery = "SELECT u FROM Usuari u WHERE u.email = :correu";
             Usuari resultat = em.createQuery(existQuery, Usuari.class)
                                            .setParameter("correu", email)
                                            .getSingleResult();
@@ -179,10 +191,10 @@ public class UsuariService extends AbstractFacade<Usuari>{
     
     @GET
     @Path("/username")
-    @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public Response byUsername(String username){
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    public Response byUsername(@QueryParam("username") String username){
         try{
-            String existQuery = "SELECT u FROM Usuaris u WHERE u.username = :username";
+            String existQuery = "SELECT u FROM Usuari u WHERE u.username = :username";
             Usuari resultat = em.createQuery(existQuery, Usuari.class)
                                            .setParameter("username", username)
                                            .getSingleResult();

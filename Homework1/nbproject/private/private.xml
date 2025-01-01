@@ -3,9 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/janto/Documents/GitHub/Homework2/Homework1/src/java/authn/Credentials.java</file>
+            <file>file:/C:/Users/janto/Documents/GitHub/Homework2/Homework1/src/java/model/entities/UserForm.java</file>
             <file>file:/C:/Users/janto/Documents/GitHub/Homework2/Homework1/src/java/service/UsuariService.java</file>
-            <file>file:/C:/Users/janto/Documents/GitHub/Homework2/Homework1/src/java/model/entities/Usuari.java</file>
+            <file>file:/C:/Users/janto/Documents/GitHub/Homework2/Homework1/src/java/service/ArticleService.java</file>
+            <file>file:/C:/Users/janto/Documents/GitHub/Homework2/Homework1/src/java/model/entities/Topic.java</file>
         </group>
     </open-files>
 </project-private>

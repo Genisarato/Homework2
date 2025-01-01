@@ -8,6 +8,7 @@ import deim.urv.cat.homework2.model.Article;
 import deim.urv.cat.homework2.model.Topic;
 import deim.urv.cat.homework2.model.Usuari;
 import deim.urv.cat.homework2.service.ArticleServiceImpl;
+import deim.urv.cat.homework2.service.UserServiceImpl;
 import jakarta.inject.Inject;
 import jakarta.mvc.Controller;
 import jakarta.mvc.Models;
@@ -31,6 +32,9 @@ public class CreateArticleController {
     
     @Inject
     private ArticleServiceImpl articleService;
+    
+    @Inject
+    private UserServiceImpl userService;
     
     @Inject
     private Models models;
@@ -64,9 +68,8 @@ public class CreateArticleController {
                               @Context HttpServletRequest request) {
 
         // Crear el objeto 'Usuari' a partir del nombre del autor
-        Usuari nou = new Usuari();
-        nou.setNom(autor);
-
+        Usuari nou = userService.findUserByUsername(autor);
+        
         // Separar los tópicos por coma y añadirlos a la lista
         List<Topic> llista = new ArrayList<>();
         String[] separats = topics.split(",");

@@ -79,6 +79,10 @@
             </div>
             <div class="profile-info">
                 <label>Nom:</label>
+                <span>${nom}</span>
+            </div>
+            <div class="profile-info">
+                <label>Nom d'usuari:</label>
                 <span>${username}</span>
             </div>
             <div class="profile-info">
@@ -94,8 +98,8 @@
                 <span>${telf}</span>
             </div>
             <div class="button-container">
-                <a href="<c:url value='/userInfo/edit'/>" class="button">Modificar Dades</a>
-                <a href="<c:url value='/Principal'/>" class="button">Tornar</a>
+                <a href="<c:url value='/Web/edit'/>" class="button">Modificar Dades</a>
+                <a href="<c:url value='/Web/Principal'/>" class="button">Tornar</a>
             </div>
         </div>
     </div>
