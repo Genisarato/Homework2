@@ -12,18 +12,66 @@
             window.location.href = "<c:url value='/Web/Principal'/>"; // Redirigir a la página principal
         }
     </script>
+    <style>
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .welcome-container {
+            display: flex;
+            align-items: center;
+            color: white;
+            font-size: 20px;
+        }
+
+        .welcome-button {
+            background-color: transparent;
+            border: none;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+
+        .welcome-button:hover {
+            color: #f0f0f0;
+        }
+
+        .header-buttons {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header-buttons button {
+            padding: 8px 16px;
+            font-size: 14px;
+        }
+
+        .header-search {
+            margin-left: auto; /* Fa que la barra de cerca quedi centrada o a la dreta */
+        }
+    </style>
 </head>
 <body>
     <!-- Cabecera con barra de búsqueda, login y crear artículo -->
-    <header class="header">
+     <header class="header">
         <div class="header-content">
+            <!-- Text de benvinguda a l'esquerra -->
             <c:choose>
                 <c:when test="${isLoggedIn}">
                     <div class="welcome-container">
-                        <p>Benvingut, <strong>${username}</strong>!</p>
+                        <form action="<c:url value='/Web/userInfo'/>" method="GET" style="margin: 0;">
+                            <button type="submit" class="welcome-button">
+                                Benvingut, <strong>${username}</strong>
+                            </button>
+                        </form>
                     </div>
                 </c:when>
             </c:choose>
+
             <!-- Barra de búsqueda -->
             <div class="header-search">
                 <form action="<c:url value='/search'/>" method="GET" class="search-form">
@@ -32,10 +80,14 @@
                 </form>
             </div>
 
-            <!-- Botones a la derecha -->
+            <!-- Botons a la dreta -->
             <div class="header-buttons">
+                <!-- Botó Filtrar -->
+                <form action="<c:url value='/Web/filtrar'/>" method="GET">
+                    <button type="submit">Filtrar</button>
+                </form>
                 <form action="<c:url value='/Web/createArticle'/>" method="GET">
-                    <button type="submit">Crear Artículo</button>
+                    <button type="submit">Crear Articles</button>
                 </form>
                 <c:choose>
                     <c:when test="${isLoggedIn}">

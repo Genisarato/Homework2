@@ -39,6 +39,7 @@ public class ArticleIdController {
     @Path("/{id}")
     public String getArticleById(@PathParam("id") int id, @Context HttpServletRequest request) {
         try {
+            
             // Obtener las credenciales de la sesión
             String username = (String) request.getSession().getAttribute("username");
             String password = (String) request.getSession().getAttribute("password");

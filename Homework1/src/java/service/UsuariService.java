@@ -107,7 +107,7 @@ public class UsuariService extends AbstractFacade<Usuari>{
             String correu = u.getEmail();
 
             // Consulta combinada per a verificar si el DNI o el correu electrònic ja existeixen
-            String existQuery = "SELECT u.nom FROM Usuari u WHERE u.dni = :dni OR u.email = :correu";
+            String existQuery = "SELECT u.nom FROM Usuari u WHERE u.dni LIKE :dni OR u.email LIKE :correu";
             List<String> resultats = em.createQuery(existQuery, String.class)
                                        .setParameter("dni", dni)
                                        .setParameter("correu", correu)
